@@ -20,10 +20,11 @@ public class JwtUtil {
     }
 
     //generate jwt token
-    public String generateToken(String username){
+    public String generateToken(String username, String role){
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date())
+                .claim("role",role)
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey())
                 .compact();
