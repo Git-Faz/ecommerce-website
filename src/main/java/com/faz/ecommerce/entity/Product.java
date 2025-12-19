@@ -21,7 +21,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
@@ -42,6 +42,6 @@ public class Product {
     private int stock;
 
     @Column(nullable = false, name = "image_url")
-    private String imgUrl;
+    private String ImageUrl;
 
 }
