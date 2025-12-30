@@ -32,6 +32,10 @@ public class User {
     @Column(nullable = false)
     private String role = "USER";
 
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Order> orders = new HashSet<>();
+
 //    @Column(nullable = false)
 //    private String role;
 
