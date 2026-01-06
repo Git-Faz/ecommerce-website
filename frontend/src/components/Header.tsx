@@ -20,12 +20,12 @@ const Header = (): JSX.Element => {
 
     return (
         <NavigationMenu viewport={false}>
-            <NavigationMenuList>
+            <NavigationMenuList className="z-100">
             {
                 navItems.map((item, index) => (
-                    <NavigationMenuItem key={index}>
+                    <NavigationMenuItem key={index} className="z-100">
                         <NavigationMenuTrigger>{item}</NavigationMenuTrigger>
-                        <NavigationMenuContent>
+                        <NavigationMenuContent className="z-100">   
                             <NavigationMenuLink>Link {index+1}</NavigationMenuLink>
                             <p>This is the description for item {index+1}</p>
                         </NavigationMenuContent>
