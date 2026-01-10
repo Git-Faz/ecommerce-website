@@ -2,14 +2,13 @@ package com.faz.ecommerce.service;
 
 import com.faz.ecommerce.entity.User;
 import com.faz.ecommerce.repository.UserRepo;
+import com.faz.ecommerce.security.CustomUserDetails;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with the username: "+username));
 
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
-        );
+        return new CustomUserDetails(user);
+        
     }
 }

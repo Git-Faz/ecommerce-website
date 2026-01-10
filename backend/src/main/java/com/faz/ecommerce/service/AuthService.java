@@ -5,10 +5,12 @@ import com.faz.ecommerce.dto.LoginRequest;
 import com.faz.ecommerce.dto.RegisterRequest;
 import com.faz.ecommerce.entity.User;
 import com.faz.ecommerce.repository.UserRepo;
+import com.faz.ecommerce.security.CustomUserDetails;
 import com.faz.ecommerce.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +23,15 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
-    public AuthResponse register (RegisterRequest request){
-        if (userRepo.existsByUsername(request.getUsername())){
-            throw new RuntimeException("Username already exists");
+    public AuthResponse register(RegisterRequest request) {
+
+        if (userRepo.existsByUsername(request.getUsername())) {
+            throw new IllegalArgumentException("Username already exists");
         }
-        if (userRepo.existsByEmail(request.getEmail())){
-            throw new RuntimeException("Email already exists");
+        if (userRepo.existsByEmail(request.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
         }
-        //create new user
+
         User user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
@@ -37,8 +40,13 @@ public class AuthService {
                 .build();
 
         userRepo.save(user);
-        //generate token
-        String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
+
+        String token = jwtUtil.generateToken(
+                user.getId(),
+                user.getUsername(),
+                user.getRole()
+        );
+
         return AuthResponse.builder()
                 .token(token)
                 .username(user.getUsername())
@@ -46,20 +54,27 @@ public class AuthService {
                 .build();
     }
 
-    public AuthResponse login(LoginRequest request){
-        //Authenticate user
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword())
+    public AuthResponse login(LoginRequest request) {
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    request.getUsername(),
+                    request.getPassword()
+                )
         );
-        // If authentication successful, fetch user
-        User user = userRepo.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        // Generate token
-        String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
+
+        CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
+
+        String token = jwtUtil.generateToken(
+                principal.getId(),
+                principal.getUsername(),
+                principal.getRole()
+        );
+
         return AuthResponse.builder()
                 .token(token)
-                .username(user.getUsername())
-                .role(user.getRole())
+                .username(principal.getUsername())
+                .role(principal.getRole())
                 .build();
     }
 }
