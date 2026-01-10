@@ -15,24 +15,22 @@ public class JwtUtil {
     private final String SECRET_KEY = "09cae201f57f651fb7d027ef85c5fd2a8929e5eb2cc111af27f1cac270056aa7";
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 24;
 
-    private SecretKey getSigningKey(){
+    private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    //generate jwt token
-    public String generateToken(Long userId, String username, String role){
+    public String generateToken(Long userId, String username, String role) {
         return Jwts.builder()
                 .subject(userId.toString())
                 .claim("username", username)
-                .claim("role",role)
+                .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey())
                 .compact();
     }
 
-    //Extract al claims
-    private Claims extractClaims(String token){
+    public Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .verifyWith(getSigningKey())
                 .build()
@@ -40,28 +38,28 @@ public class JwtUtil {
                 .getPayload();
     }
 
-    //extract username from token
-    public String extractUsername(String token){
-        return extractClaims(token).getSubject();
+    public Long extractUserId(String token) {
+        return Long.parseLong(extractAllClaims(token).getSubject());
     }
 
-//    public String extractRole(String token){
-//        return  extractClaims(token).get("role",String.class);
-//    }
+    public String extractUsername(String token) {
+        return extractAllClaims(token).get("username", String.class);
+    }
 
-    //Validate token
-    public boolean validateToken(String token, String username){
-        try{
-            String extractedUsername = extractUsername(token);
-            return extractedUsername.equals(username) && !isTokenExpired(token);
+    public String extractRole(String token) {
+        return extractAllClaims(token).get("role", String.class);
+    }
+
+    public boolean validateToken(String token, Long userId) {
+        try {
+            Long extractedUserId = extractUserId(token);
+            return extractedUserId.equals(userId) && !isTokenExpired(token);
         } catch (JwtException e) {
             return false;
         }
     }
 
     private boolean isTokenExpired(String token) {
-        return  extractClaims(token).getExpiration().before(new Date());
+        return extractAllClaims(token).getExpiration().before(new Date());
     }
-
-
 }

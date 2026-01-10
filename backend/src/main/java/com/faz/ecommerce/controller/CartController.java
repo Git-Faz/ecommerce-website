@@ -1,5 +1,6 @@
 package com.faz.ecommerce.controller;
 
+import com.faz.ecommerce.dto.AddToCartRequest;
 import com.faz.ecommerce.dto.ApiResponse;
 import com.faz.ecommerce.dto.CartItemResponse;
 import com.faz.ecommerce.entity.CartItem;
@@ -29,17 +30,15 @@ public class CartController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<CartItemResponse>> addItem(@RequestParam Long productId,
-            @RequestParam int quantity, Authentication auth) {
-        CartItem item = cartService.addToCart(productId, quantity);
+    public ResponseEntity<ApiResponse<CartItemResponse>> addItem(@RequestBody AddToCartRequest request, Authentication auth) {
+        CartItem item = cartService.addToCart(request.getProductId(), request.getQuantity());
         CartItemResponse response = cartService.mapToCartResponse(item);
         return ResponseEntity.ok(new ApiResponse<>("Item added to cart", response));
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<ApiResponse<CartItemResponse>> updateQuantity(@RequestParam Long productId,
-            @RequestParam int quantity) {
-        CartItem item = cartService.updateQuantity(productId, quantity);
+    public ResponseEntity<ApiResponse<CartItemResponse>> updateQuantity(@RequestBody AddToCartRequest request) {
+        CartItem item = cartService.updateQuantity(request.getProductId(), request.getQuantity());
         CartItemResponse response = cartService.mapToCartResponse(item);
         return ResponseEntity.ok(new ApiResponse<>("Quantity updated", response));
     }
