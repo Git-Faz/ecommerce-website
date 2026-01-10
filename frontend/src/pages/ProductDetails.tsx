@@ -1,7 +1,7 @@
-import { api } from "@/api/axios";
 import { useEffect, useState, type JSX } from "react";
-import { useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { getProductById } from "@/api/productApi";
+import { api } from "@/api/axios";
 
 interface Product {
     id: number;
@@ -20,32 +20,33 @@ type RouteParams = {
 const ProductDetails = (): JSX.Element => {
 
     const { id } = useParams<RouteParams>();
+    const navigate = useNavigate();
     const [productDetails, setProductDetails] = useState<Product | null>(null);
 
-    const numId = Number(id);
+    const productId = Number(id);
     useEffect(() => {
 
         if (!id) return;
-        api.get<Product>(`/products/${numId}`)
+        getProductById(productId)
             .then(res => {
                 console.log(res.data);
                 setProductDetails(res.data);
             })
             .catch(e => `Unexpected error; ${e}`)
-    }, []);
+    }, [productId]);
 
 
     if (!productDetails) {
-    return <h1>Product doesnt exist</h1>;
+        return <h1>Product doesnt exist</h1>;
     }
 
     return (
         <>
-           <h2>{productDetails?.name}</h2>
-           <h5>{productDetails?.price}</h5>
-           <p>{productDetails?.description}</p>
-           <Link to={"/my-cart"}>Add to cart</Link>
-           
+            <h2>{productDetails?.name}</h2>
+            <h5>{productDetails?.price}</h5>
+            <p>{productDetails?.description}</p>
+            <button onClick={addToCart} className="bg-blue-500 text-white px-4 py-2 rounded">Add to cart</button>
+
         </>
     )
 }

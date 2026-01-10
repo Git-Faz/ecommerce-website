@@ -1,6 +1,6 @@
 import { useEffect, useState, type JSX } from "react";
 import { Link } from "react-router-dom";
-import { api } from "@/api/axios";
+import { getAllProducts } from "@/api/productApi";
 
 
 const Home = (): JSX.Element => {
@@ -18,17 +18,12 @@ const Home = (): JSX.Element => {
     const [productData, setProductData] = useState<Product[]>([]);
 
     useEffect(() => {
-        api.get<Product[]>("/products")
+        getAllProducts()
             .then(res => {
-                console.log(Array.isArray(res.data))
                 console.log(res.data);
                 setProductData(res.data)
-                
-
             })
-
             .catch(e => `An error occured: ${e}`)
-
     }, [])
 
     return (
