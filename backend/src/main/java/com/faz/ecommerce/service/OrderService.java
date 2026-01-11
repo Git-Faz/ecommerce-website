@@ -22,10 +22,8 @@ import static java.util.stream.Collectors.toList;
 public class OrderService {
 
     private final OrderRepo orderRepo;
-    private final OrderItemRepo orderItemRepo;
     private final CartItemRepo cartItemRepo;
     private final UserRepo userRepo;
-    private final CartService cartService;
 
     public Order createOrderFromCart (Long userId){
 
