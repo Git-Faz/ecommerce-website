@@ -1,13 +1,13 @@
 import { api } from "@/api/axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
+import { useNavigate } from "react-router-dom";
 //import { useParams } from "react-router-dom";
 
 
 const Cart = () => {
 
     const [cartItems, setCartItems] = useState<any[]>([]);
-
-   // const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -26,6 +26,10 @@ const Cart = () => {
 
     }, [])
 
+    const handleCheckout = () => {
+        navigate("/checkout");
+    }
+
     if (cartItems.length === 0) {
         return <h1>Your cart is empty</h1>;
     }
@@ -41,8 +45,11 @@ const Cart = () => {
                         <p className="text-md mt-2">Quantity: {item.quantity}</p>
                         <p>Total: ${item.totalPrice}</p>
                     </div>
-                ))
+                ))  
             }
+            <button onClick={handleCheckout}
+                        className="p-2 bg-green-600 text-white text-lg border-2 border-black hover:cursor-pointer"
+                        >Proceed to buy</button>
         </>
     )
 }
