@@ -1,5 +1,5 @@
-import { api } from "@/api/axios";
-import { useState, useEffect, use } from "react";
+import api from "@/api/axios";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 //import { useParams } from "react-router-dom";
 
@@ -10,16 +10,10 @@ const Cart = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-
-        const userId = Number(localStorage.getItem("userId") ?? 1); // or get from route/auth
-        if (!userId) {
-            console.warn("userId missing");
-            return;
-        }
         api
-            .get(`/cart`, { params: { userId } })
+            .get(`/cart`)
             .then(res => {
-                console.log(res.data)
+                //console.log(res.data)
                 setCartItems(res.data)
             })
             .catch(err => `Unexpected error: ${err}`)
@@ -31,12 +25,17 @@ const Cart = () => {
     }
 
     if (cartItems.length === 0) {
-        return <h1>Your cart is empty</h1>;
+        return (
+            <div>
+                <h1 id="title">Cart Page</h1>
+                <h3>Your cart is empty</h3>
+            </div>
+        );
     }
 
     return (
         <>
-            <h1>Cart Page</h1>
+            <h1 id="title" >Cart Page</h1>
             {
                 cartItems.map((item: any) => (
                     <div key={item.id} className="bg-white p-6 rounded-lg shadow">

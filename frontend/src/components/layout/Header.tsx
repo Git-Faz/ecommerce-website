@@ -7,16 +7,31 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { Link } from "react-router-dom";
 import type { JSX } from "react";
 
+interface NavItem {
+  label: string
+  href: string
+}
 
 const Header = (): JSX.Element => {
 
-    let navItems: string[] = [];
+    let navItems: NavItem[] = [
+        {
+            label: "Home",
+            href:"/"
+        },
+        {
+            label:"Cart",
+            href:"/cart"
+        },
+        {
+            label:"Orders",
+            href:"/orders"
+        }
+    ];
 
-    for (let i : number = 0; i < 5; i++) {
-        navItems.push(`Item ${i+1}`)
-    }
 
     return (
         <NavigationMenu viewport={false}>
@@ -24,10 +39,11 @@ const Header = (): JSX.Element => {
             {
                 navItems.map((item, index) => (
                     <NavigationMenuItem key={index} className="z-100">
-                        <NavigationMenuTrigger>{item}</NavigationMenuTrigger>
-                        <NavigationMenuContent className="z-100">   
-                            <NavigationMenuLink>Link {index+1}</NavigationMenuLink>
-                            <p>This is the description for item {index+1}</p>
+                        <NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
+                        <NavigationMenuContent className="bg-white border shadow-md">   
+                            <NavigationMenuLink asChild>
+                                <Link to={item.href}>{item.label}</Link>
+                            </NavigationMenuLink>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
                 ))

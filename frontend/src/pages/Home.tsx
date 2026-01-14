@@ -2,10 +2,7 @@ import { useEffect, useState, type JSX } from "react";
 import { Link } from "react-router-dom";
 import { getAllProducts } from "@/api/productApi";
 
-
-const Home = (): JSX.Element => {
-
-    interface Product {
+export interface Product {
         id: number;
         name: string;
         description: string;
@@ -15,20 +12,23 @@ const Home = (): JSX.Element => {
         imageUrl: string;
     }
 
+const Home = (): JSX.Element => {
+
     const [productData, setProductData] = useState<Product[]>([]);
 
     useEffect(() => {
         getAllProducts()
             .then(res => {
-                console.log(res.data);
+                //console.log(res.data);
                 setProductData(res.data)
             })
             .catch(e => `An error occured: ${e}`)
     }, [])
 
     return (
-        <>
-            <h1>Home Page</h1>
+        <div className="flex-col justify-between h-full space-x-3">
+            <h1 id="title">Home Page</h1>
+            <div>
             {productData.map(product => (
                 <div key={product.id} className="bg-white p-6 rounded-lg shadow">
                     <h3 className="text-xl font-semibold">{product.name}</h3>
@@ -38,8 +38,8 @@ const Home = (): JSX.Element => {
                 )
             )
             }
-
-        </>
+            </div>
+        </div>
 
     )
 }

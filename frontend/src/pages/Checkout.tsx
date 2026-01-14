@@ -2,6 +2,7 @@ import { getCart } from "@/api/cartApi";
 import { createOrder } from "@/api/orderApi";
 import { useEffect, useMemo, useState, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
+import { type AxiosResponse, AxiosError } from "axios";
 
 interface OrderItem {
     productId: number;
@@ -14,18 +15,18 @@ interface OrderItem {
 const Checkout = (): JSX.Element => {
 
     const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
-    const [message, setMessage] = useState<string>("")
     const navigate = useNavigate();
 
     useEffect(() => {
         getCart()
-            .then(res => {
-                setOrderItems(res.data)
+            .then((res: AxiosResponse<OrderItem[]>) => {
+                setOrderItems(res.data);
                 console.log(res.data);
-
             })
-            .catch(e => `error ${e}`)
-    }, [])
+            .catch((e: AxiosError) => {
+                console.error("Failed to fetch cart", e);
+            });
+    }, []);
 
 
     const total = useMemo(
@@ -37,7 +38,7 @@ const Checkout = (): JSX.Element => {
         try {
             const res = await createOrder();
 
-            alert(res.data.message); // or a toast
+            alert(res.data.message);
             navigate("/");
         } catch (err) {
             console.error("Order creation failed", err);
@@ -50,7 +51,7 @@ const Checkout = (): JSX.Element => {
 
     return (
         <>
-            <h1>Checkout Page</h1>
+            <h1 id="title">Checkout Page</h1>
 
             {
                 orderItems.map((item: any) => (

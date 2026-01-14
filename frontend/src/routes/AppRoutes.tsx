@@ -4,6 +4,7 @@ import ProductDetails from "@/pages/ProductDetails";
 import Cart from "@/pages/Cart";
 import Checkout from "@/pages/Checkout";
 import Auth from "@/pages/Auth";
+import Order from "@/pages/Order"
 import type { JSX } from "react";
 
 const AppRoutes = (): JSX.Element => {
@@ -13,6 +14,7 @@ const AppRoutes = (): JSX.Element => {
             <Route path = "/cart" element={<Cart/>}></Route>
             <Route path = "/product/:id" element={<ProductDetails/>}></Route>
             <Route path ="/checkout" element={<Checkout/>}></Route>
+            <Route path="/orders" element={<Order/>}/>
             <Route path ="/auth" element={<Auth/>}></Route>
         </Routes>
     )
