@@ -12,4 +12,4 @@ export const deleteCartItem = (cartItemId: number) =>
     api.delete(`/cart/${cartItemId}`);
 
 export const clearCart = () =>
-    api.delete("/cart/clear");
+    api.delete("/cart");

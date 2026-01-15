@@ -1,7 +1,7 @@
 import { getAllOrders } from "@/api/orderApi";
 import type { JSX } from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 interface OrderItem {
     id: number
@@ -24,7 +24,7 @@ const Order = (): JSX.Element => {
 
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     useEffect(() => {
         getAllOrders()
