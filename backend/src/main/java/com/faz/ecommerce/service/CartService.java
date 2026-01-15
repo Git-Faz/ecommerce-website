@@ -8,6 +8,8 @@ import com.faz.ecommerce.repository.CartItemRepo;
 import com.faz.ecommerce.repository.ProductRepo;
 import com.faz.ecommerce.repository.UserRepo;
 import com.faz.ecommerce.security.CustomUserDetails;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ public class CartService {
         return userDetails.getId();
     }
 
+    @Transactional
     public CartItem addToCart(Long productId, int quantity) {
         Long userId = getCurrentUserId();
         
@@ -61,6 +64,7 @@ public class CartService {
         return cartItemRepo.findByUserId(userId);
     }
 
+    @Transactional
     public CartItem updateQuantity(Long productId, int quantity) {
         Long userId = getCurrentUserId();
         
@@ -73,11 +77,13 @@ public class CartService {
         return cartItemRepo.save(item);
     }
 
+    @Transactional
     public void clearCart() {
         Long userId = getCurrentUserId();
-        cartItemRepo.deleteByUserId(userId);
+        cartItemRepo.deleteAllByUserId(userId);
     }
 
+    @Transactional
     public void removeItem(Long cartItemId) {
         Long userId = getCurrentUserId();
         

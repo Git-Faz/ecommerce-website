@@ -5,9 +5,9 @@ import com.faz.ecommerce.dto.OrderResponse;
 import com.faz.ecommerce.entity.*;
 import com.faz.ecommerce.enums.OrderStatus;
 import com.faz.ecommerce.repository.*;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -39,7 +39,6 @@ public class OrderService {
         //create new order
         Order order = new Order();
         order.setStatus(PROCESSING);
-        order.setTotal(calculateTotalAmount(cartItems));
         order.setUser(user);
 
         //convert cart items to order items
@@ -61,7 +60,7 @@ public class OrderService {
         order.setTotal(total);
         order = orderRepo.save(order);
 
-        cartItemRepo.deleteByUserId(userId);
+        cartItemRepo.deleteAllByUserId(userId);
 
         return order;
     }
