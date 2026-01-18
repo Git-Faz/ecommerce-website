@@ -1,7 +1,7 @@
 import api from "./axios";
 
 interface LoginReq {
-    email: string;
+    username: string;
     password: string;
 }
 

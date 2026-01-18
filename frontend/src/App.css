@@ -2,8 +2,13 @@
 @import "tw-animate-css";
 
 @layer base {
+
+    * {
+        box-sizing: border-box;
+    }
     #title {
         @apply m-1 p-2 text-4xl font-bold text-blue-600;
     }
+    
 }
 

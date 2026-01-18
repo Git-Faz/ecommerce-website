@@ -29,6 +29,10 @@ const Header = (): JSX.Element => {
         {
             label:"Orders",
             href:"/orders"
+        },
+        {
+            label:"Login",
+            href: "/auth"
         }
     ];
 
