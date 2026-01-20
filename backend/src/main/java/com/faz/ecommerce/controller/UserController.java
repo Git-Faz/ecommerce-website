@@ -16,6 +16,6 @@ public class UserController {
                 .map(r -> r.replace("ROLE_", ""))
                 .collect(Collectors.joining(", "));
 
-        return "Hello " + authentication.getName() + "! Your role is: " + roles;
+        return "Welcome " + authentication.getName() + "! Your role is: " + roles;
     }
 }

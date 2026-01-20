@@ -39,14 +39,12 @@ const Checkout = (): JSX.Element => {
             const res = await createOrder();
 
             alert(res.data.message);
-            navigate("/");
+            navigate("/orders");
         } catch (err) {
             console.error("Order creation failed", err);
             alert("Failed to place order");
         }
     };
-
-
     console.log(total);
 
     return (

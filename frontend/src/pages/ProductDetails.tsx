@@ -1,7 +1,7 @@
 import { useEffect, useState, type JSX } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "@/api/productApi";
-import { addToCart} from "@/api/cartApi";
+import { addToCart } from "@/api/cartApi";
 
 interface Product {
     id: number;
@@ -36,16 +36,16 @@ const ProductDetails = (): JSX.Element => {
     }, [productId]);
 
     const handleAddToCart = async () => {
-    if (productDetails) {
-        try {
-            await addToCart(productId, 1);
-            console.log("Added to cart");
-            navigate("/cart")
-        } catch (e) {
-            console.error("Failed to add to cart:", e);
+        if (productDetails) {
+            try {
+                await addToCart(productId, 1);
+                console.log("Added to cart");
+                navigate("/cart")
+            } catch (e) {
+                console.error("Failed to add to cart:", e);
+            }
         }
-    }
-};
+    };
 
 
     if (!productDetails) {
@@ -53,13 +53,18 @@ const ProductDetails = (): JSX.Element => {
     }
 
     return (
-        <>
-            <h2>{productDetails?.name}</h2>
-            <h5>{productDetails?.price}</h5>
-            <p>{productDetails?.description}</p>
-            <button onClick={handleAddToCart} className="bg-blue-500 text-white px-4 py-2 rounded">Add to cart</button>
-
-        </>
+        <div className="flex flex-row justify-around p-5">
+            <img src={productDetails.imageUrl} className="w-full max-w-md" alt="" />
+            <div className="flex flex-col justify-evenly">
+                <h2 className="text-4xl">{productDetails?.name}</h2>
+                <h5 className="text-2xl">₹{productDetails?.price}</h5>
+                <div className=" flex-row">
+                    <h6 className="text-xl mb-3 underline underline-offset-6 ">About the product: </h6>
+                    <p className="text-lg">{productDetails?.description}</p>
+                </div>
+                <button onClick={handleAddToCart} className="bg-blue-500 text-white px-4 py-2 rounded">Add to cart</button>
+            </div>
+        </div>
     )
 }
 

@@ -2,11 +2,8 @@ import api from "@/api/axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCart, clearCart } from "@/api/cartApi";
-//import { useParams } from "react-router-dom";
-
 
 const Cart = () => {
-
     const [cartItems, setCartItems] = useState<any[]>([]);
     const navigate = useNavigate();
 
@@ -17,7 +14,6 @@ const Cart = () => {
                 setCartItems(res.data)
             })
             .catch(err => `Unexpected error: ${err}`)
-
     }, [])
 
     const handleClearCart = async () => {
@@ -28,8 +24,6 @@ const Cart = () => {
             console.error("Failed to clear cart", err)
         }
     }
-
-
 
     const handleCheckout = () => {
         navigate("/checkout");
