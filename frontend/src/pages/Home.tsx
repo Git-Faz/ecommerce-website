@@ -3,16 +3,8 @@ import { getAllProducts } from "@/api/productApi";
 import ProductCard from "@/components/product/ProductCard";
 import { useNavigate } from "react-router-dom";
 import placeholder from "../assets/placeholder.jpg"
-import {
-    Item,
-    ItemActions,
-    ItemContent,
-    ItemDescription,
-    ItemFooter,
-    ItemHeader,
-    ItemMedia,
-    ItemTitle,
-} from "@/components/ui/item"
+import { addToCart } from "@/api/cartApi";
+
 
 export interface Product {
     id: number;
@@ -39,9 +31,8 @@ const Home = (): JSX.Element => {
     }, [])
 
     return (
-        <div className="h-full space-x-3">
-            <h1 id="title">Home Page</h1>
-            <div className="flex flex-row gap-x-4">
+        <div className="h-full space-x-3 ">
+            <div className="flex flex-row gap-x-4 m-10">
                 {productData.map(product => (
                         <ProductCard
                             key={product.id}
@@ -52,6 +43,7 @@ const Home = (): JSX.Element => {
                             name={product.name}
                             price={product.price}
                             onClick={() => navigate(`/products/${product.id}`)}
+                            onBtnClick={()=>addToCart(product.id,1)}
                         />
                 )
                 )

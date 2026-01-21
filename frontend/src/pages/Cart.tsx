@@ -1,16 +1,26 @@
-import api from "@/api/axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCart, clearCart } from "@/api/cartApi";
+import { getCart, clearCart, deleteCartItem } from "@/api/cartApi";
+import CartItemCard from "@/components/cart/CartItemCard";
 
-const Cart = () => {
-    const [cartItems, setCartItems] = useState<any[]>([]);
+interface CartItem {
+  id: number;
+  productName: string;
+  productImageUrl: string;
+  productPrice: number;
+  quantity: number;
+  totalPrice: number;
+}
+
+
+const Cart = (): JSX.Element => {
+    const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         getCart()
             .then(res => {
-                //console.log(res.data)
+                console.log(res.data)
                 setCartItems(res.data)
             })
             .catch(err => `Unexpected error: ${err}`)
@@ -38,18 +48,36 @@ const Cart = () => {
         );
     }
 
+    const handleDelete = async (itemId: number) => {
+        try {
+            await deleteCartItem(itemId);
+            setCartItems(prev => prev.filter(item => item.id !== itemId));
+        } catch (error) {
+            console.error("Failed to delete cart item", error);
+        }
+    }
+
+    
+
     return (
         <>
-            <h1 id="title" >Cart Page</h1>
+            <h1 id="title" >
+                My Cart
+            </h1>
+
             <div>
                 {
                     cartItems.map((item: any) => (
-                        <div key={item.id} className="bg-white p-6 rounded-lg shadow">
-                            <h3 className="text-xl font-semibold">{item.productName}</h3>
-                            <p className="text-2xl font-bold mt-2">${item.productPrice}</p>
-                            <p className="text-md mt-2">Quantity: {item.quantity}</p>
-                            <p>Total: ${item.totalPrice}</p>
-                        </div>
+
+                        <CartItemCard
+                        key={item.id}
+                            name={item.productName}
+                            imageUrl={item.productImageUrl}
+                            price={item.productPrice}
+                            quantity={item.quantity}
+                            total={item.totalPrice}
+                            onDelete={() => handleDelete(item.id)}
+                        />
                     ))
                 }
                 <button onClick={handleClearCart} className="m-2 p-2 bg-red-300 text-red-700 border-red-700 border-2 hover:cursor-pointer hover:text-black text-md">Clear</button>

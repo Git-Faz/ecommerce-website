@@ -53,16 +53,18 @@ const ProductDetails = (): JSX.Element => {
     }
 
     return (
-        <div className="flex flex-row justify-around p-5">
-            <img src={productDetails.imageUrl} className="w-full max-w-md" alt="" />
-            <div className="flex flex-col justify-evenly">
-                <h2 className="text-4xl">{productDetails?.name}</h2>
-                <h5 className="text-2xl">₹{productDetails?.price}</h5>
-                <div className=" flex-row">
-                    <h6 className="text-xl mb-3 underline underline-offset-6 ">About the product: </h6>
-                    <p className="text-lg">{productDetails?.description}</p>
+        <div id="product-details">
+            <div className="flex flex-row justify-around p-5">
+                <img src={productDetails.imageUrl} className="w-full max-w-md" alt="" />
+                <div className="flex flex-col justify-evenly">
+                    <h2 className="text-4xl">{productDetails?.name}</h2>
+                    <h5 className="text-2xl">₹{productDetails?.price}</h5>
+                    <div className=" flex-row">
+                        <h6 className="text-xl mb-3 underline underline-offset-6 ">About the product: </h6>
+                        <p className="text-lg">{productDetails?.description}</p>
+                    </div>
+                    <button onClick={handleAddToCart} className="bg-blue-500 text-white px-4 py-2 rounded">Add to cart</button>
                 </div>
-                <button onClick={handleAddToCart} className="bg-blue-500 text-white px-4 py-2 rounded">Add to cart</button>
             </div>
         </div>
     )
