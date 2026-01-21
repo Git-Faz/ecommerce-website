@@ -38,12 +38,12 @@ const Header = (): JSX.Element => {
 
 
     return (
-        <NavigationMenu viewport={false} className="mx-auto rounded-lg border border-[#1b1b1b] top-1 "  >
+        <NavigationMenu viewport={false} className="mx-auto border border-b border-neutral-400 shadow-neutral-500 shadow-md "  >
             <NavigationMenuList id="navmenu"  >
             {
                 navItems.map((item, index) => (
                     <NavigationMenuItem key={index} className="z-100">
-                            <NavigationMenuLink asChild className="text-xl text-neutral-200 hover:text-white font-semibold hover:font-semibold hover:underline">
+                            <NavigationMenuLink asChild className="text-xl text-black font-semibold hover:font-semibold hover:underline active:underline">
                                 <Link to={item.href}>{item.label}</Link>
                             </NavigationMenuLink>
                     </NavigationMenuItem>
