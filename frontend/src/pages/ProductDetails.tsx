@@ -1,5 +1,5 @@
 import { useEffect, useState, type JSX } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getProductById } from "@/api/productApi";
 import { addToCart } from "@/api/cartApi";
 import { toast } from "sonner"
@@ -36,19 +36,21 @@ const ProductDetails = (): JSX.Element => {
             .catch(e => `Unexpected error; ${e}`)
     }, [productId]);
 
-    const handleAddToCart = async () => {
-        if (productDetails) {
-            try {
-                await addToCart(productId, 1);
-                toast.success("Item added to cart")
-                console.log("Added to cart");
-                
-               // navigate("/cart")
-            } catch (e) {
-                console.error("Failed to add to cart:", e);
-            }
+    function addCart(prodId: number, qty = 1) {
+        if (!localStorage.getItem('token')) {
+            toast.info(
+                <>
+                    <Link to="/auth" className="underline">
+                        Login
+                    </Link>{" "}
+                    to add items to cart
+                </>
+            )
+        } else {
+            addToCart(prodId, qty)
+            toast.success("Item added to cart!")
         }
-    };
+    }
 
 
     if (!productDetails) {
@@ -66,7 +68,7 @@ const ProductDetails = (): JSX.Element => {
                         <h6 className="text-xl mb-3 underline underline-offset-6 ">About the product: </h6>
                         <p className="text-lg">{productDetails?.description}</p>
                     </div>
-                    <button onClick={handleAddToCart} className="bg-blue-500 text-white px-4 py-2 rounded">Add to cart</button>
+                    <button onClick={() => addCart(productDetails.id,1)} className="bg-blue-500 text-white px-4 py-2 rounded">Add to cart</button>
                 </div>
             </div>
         </div>
