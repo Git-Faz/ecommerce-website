@@ -7,7 +7,7 @@ const Auth = () => {
   const [mode, setMode] = useState<AuthMode>("login");
 
   return (
-     <div className="min-h-screen flex items-center justify-center bg-neutral-950">
+     <div className="min-h-screen flex items-center justify-center">
       <div className="space-y-6">
         <div className="flex gap-4 justify-center">
           <button onClick={() => setMode("login")} className={`px-4 py-2 rounded ${

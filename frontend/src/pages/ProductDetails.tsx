@@ -2,6 +2,7 @@ import { useEffect, useState, type JSX } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "@/api/productApi";
 import { addToCart } from "@/api/cartApi";
+import { toast } from "sonner"
 
 interface Product {
     id: number;
@@ -39,8 +40,10 @@ const ProductDetails = (): JSX.Element => {
         if (productDetails) {
             try {
                 await addToCart(productId, 1);
+                toast.success("Item added to cart")
                 console.log("Added to cart");
-                navigate("/cart")
+                
+               // navigate("/cart")
             } catch (e) {
                 console.error("Failed to add to cart:", e);
             }
