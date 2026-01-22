@@ -2,14 +2,15 @@ import { useState, useEffect, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCart, clearCart, deleteCartItem } from "@/api/cartApi";
 import CartItemCard from "@/components/cart/CartItemCard";
+import { Button } from "@/components/ui/button";
 
 interface CartItem {
-  id: number;
-  productName: string;
-  productImageUrl: string;
-  productPrice: number;
-  quantity: number;
-  totalPrice: number;
+    id: number;
+    productName: string;
+    productImageUrl: string;
+    productPrice: number;
+    quantity: number;
+    totalPrice: number;
 }
 
 
@@ -57,20 +58,18 @@ const Cart = (): JSX.Element => {
         }
     }
 
-    
+
 
     return (
-        <>
+        <div className="m-5 p-5">
             <h1 id="title" >
                 My Cart
             </h1>
-
             <div>
                 {
                     cartItems.map((item: any) => (
-
                         <CartItemCard
-                        key={item.id}
+                            key={item.id}
                             name={item.productName}
                             imageUrl={item.productImageUrl}
                             price={item.productPrice}
@@ -80,12 +79,13 @@ const Cart = (): JSX.Element => {
                         />
                     ))
                 }
-                <button onClick={handleClearCart} className="m-2 p-2 bg-red-300 text-red-700 border-red-700 border-2 hover:cursor-pointer hover:text-black text-md">Clear</button>
             </div>
-            <button onClick={handleCheckout}
-                className="p-2 m-2 bg-green-600 text-white text-lg border-2 border-black hover:cursor-pointer"
-            >Proceed to buy</button>
-        </>
+            <div className="flex justify-end gap-x-5 min-w-fit w-3xl">
+                <Button variant={"destructive"} size={"sm"} onClick={handleClearCart} className="bg-red-300 text-black hover:bg-red-500" >Clear</Button>
+                <Button size={"sm"} onClick={handleCheckout} className="bg-green-300 text-black hover:bg-green-400"
+                >Proceed to buy</Button>
+            </div>
+        </div>
     )
 }
 
