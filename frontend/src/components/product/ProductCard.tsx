@@ -38,7 +38,7 @@ const ProductCard = ({ img, name, price, onClick, onBtnClick }: ProductCard): JS
                 <button
                     onClick={onBtnClick}
                     className="flex justify-between p-2 min-w-fit w-30 my-1 mx-auto text-center bg-purple-300 text-neutral-800 hover:text-white text-sm rounded-md transition-all duration-200 ease-in hover:bg-purple-500 focus:bg-purple-500">
-                    Add to cart <Cart size={"2 0px"}/>
+                    Add to cart <Cart size={"20px"}/>
                 </button>
             </CardAction>
         </Card>
