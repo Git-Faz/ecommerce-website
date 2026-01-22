@@ -3,11 +3,15 @@ import { createOrder } from "@/api/orderApi";
 import { useEffect, useMemo, useState, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
 import { type AxiosResponse, AxiosError } from "axios";
+import CartItemCard from "@/components/cart/CartItemCard";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 interface OrderItem {
     productId: number;
     productName: string;
-    price: number;
+    productPrice: number;
+    productImageUrl: string;
     quantity: number;
     totalPrice: number;
 }
@@ -47,28 +51,81 @@ const Checkout = (): JSX.Element => {
     };
     console.log(total);
 
+    const deliveryFee = orderItems.length > 0 ? 49 : 0;
+
     return (
-        <>
-            <h1 id="title">Checkout Page</h1>
+        <div className="m-5 p-5">
+            <h1 id="title" className="mb-4">Checkout</h1>
 
-            {
-                orderItems.map((item: any) => (
-                    <div key={item.id} className="bg-white p-6 rounded-lg shadow">
-                        <h3 className="text-xl font-semibold">{item.productName}</h3>
-                        <p className="text-lg font-bold mt-2">${item.productPrice}</p>
-                        <p className="text-md mt-2">Quantity: {item.quantity}</p>
-                        <p>Subtotal: ${item.totalPrice}</p>
-                    </div>
+            <div className="grid gap-6 md:grid-cols-2 align-top gap-x-24">
+                <div className="flex flex-col space-y-4 align-top shadow-md rounded-lg shadow-blue-300">
+                    {orderItems.map((item: OrderItem, i) => (
+                        <CartItemCard
+                            key={i}
+                            name={item.productName}
+                            imageUrl={item.productImageUrl}
+                            price={item.productPrice}
+                            quantity={item.quantity}
+                            total={item.totalPrice}
+                            classname="w-full mt-0 mb-1 shadow-2xs shadow-accent"
 
-                ))
-            }
-            <h4 className=" p-2 text-xl font-semibold text-yellow-600">Total:${total} </h4>
+                        />
+                    ))}
+                </div>
 
-            <h2 className="m-2 text-2xl font-semibold ">Choose a payment method:</h2>
-            <button onClick={handleSubmission} className="p-2 m-2 bg-blue-400 font-semibold text-xl ">Pay from fazWallet</button>
-            <button onClick={handleSubmission} className="p-2 m-2 bg-blue-400 font-semibold text-xl ">NetBanking</button>
-        </>
+                <Card className="h-fit shadow-mdshadow-blue-300">
+                    <CardHeader>
+                        <CardTitle>Order Summary</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                        <div className="space-y-1 text-sm">
+                            {orderItems.map((item: OrderItem, i) => (
+                                <div key={i} className="flex justify-between">
+                                    <span className="text-muted-foreground">
+                                        {item.productName} <span className="text-xs">(x{item.quantity})</span>
+                                    </span>
+                                    <span>₹{item.totalPrice.toFixed(2)}</span>
+                                </div>
+                            ))}
+                        </div>
 
+                        <div className="flex justify-between text-sm">
+                            <span className="text-muted-foreground">Subtotal</span>
+                            <span>₹{total.toFixed(2)}</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                            <span className="text-muted-foreground">Delivery fee</span>
+                            <span>₹{deliveryFee.toFixed(2)}</span>
+                        </div>
+
+                        <div className="h-px bg-border" />
+
+                        <div className="flex justify-between text-lg font-semibold">
+                            <span>Total</span>
+                            <span>₹{(total + deliveryFee).toFixed(2)}</span>
+                        </div>
+
+                        <div className="pt-4 space-y-2">
+                            <h2 className="text-lg font-semibold">Choose a payment method</h2>
+                            <div className="flex flex-col gap-2">
+                                <Button
+                                    onClick={handleSubmission}
+                                    className="bg-green-300 text-black hover:bg-green-400"
+                                >
+                                    Pay from fazWallet
+                                </Button>
+                                <Button
+                                    onClick={handleSubmission}
+                                    className="bg-blue-300 text-black hover:bg-blue-400"
+                                >
+                                    NetBanking
+                                </Button>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
     )
 }
 
