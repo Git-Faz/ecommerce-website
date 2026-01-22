@@ -11,7 +11,7 @@ interface RegisterReq {
 type FormErrors = Partial<Record<keyof RegisterReq, string>>;
 
 const initialForm: RegisterReq = {
-    email:"",
+    email: "",
     username: "",
     password: "",
 };
@@ -36,7 +36,7 @@ export const RegisterForm = (): JSX.Element => {
     const validate = (data: RegisterReq): FormErrors => {
         const errs: FormErrors = {};
 
-        if(!data.email.includes("@")){
+        if (!data.email.includes("@")) {
             errs.email = "Enter proper email"
         }
 
@@ -74,59 +74,59 @@ export const RegisterForm = (): JSX.Element => {
         <div>
             <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-sm space-y-6 rounded-xl bg-neutral-900 p-8 shadow-lg"
+                className="authForm"
             >
-                <h1 className="text-2xl font-semibold text-white text-center">
-                    Register
-                </h1>
+                <h1> Register </h1>
                 <div>
-                    <label className="block text-sm text-neutral-400 mb-1">
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full rounded-md bg-neutral-800 px-3 py-2 text-white outline-none ring-1 ring-neutral-700 focus:ring-2 focus:ring-blue-500"
-                        required
-                    />
-                    {errors.email && (
-                        <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-                    )}
-                </div>
-                <div>
-                    <label className="block text-sm text-neutral-400 mb-1">
-                        Username
-                    </label>
-                    <input
-                        type="text"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleChange}
-                        className="w-full rounded-md bg-neutral-800 px-3 py-2 text-white outline-none ring-1 ring-neutral-700 focus:ring-2 focus:ring-blue-500"
-                    />
-                    {errors.username && (
-                        <p className="mt-1 text-sm text-red-500">{errors.username}</p>
-                    )}
-                </div>
+                    <div>
+                        <label className="authFormLabel">
+                            Email
+                        </label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className="authFormInput"
+                            required
+                        />
+                        {errors.email && (
+                            <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                        )}
+                    </div>
 
-                <div>
-                    <label className="block text-sm text-neutral-400 mb-1">
-                        Password
-                    </label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        className="w-full rounded-md bg-neutral-800 px-3 py-2 text-white outline-none ring-1 ring-neutral-700 focus:ring-2 focus:ring-blue-500"
-                    />
-                    {errors.password && (
-                        <p className="mt-1 text-sm text-red-500">{errors.password}</p>
-                    )}
-                </div>
+                    <div>
+                        <label className="authFormLabel">
+                            Username
+                        </label>
+                        <input
+                            type="text"
+                            name="username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            className="authFormInput"
+                        />
+                        {errors.username && (
+                            <p className="mt-1 text-sm text-red-500">{errors.username}</p>
+                        )}
+                    </div>
 
+                    <div>
+                        <label className="authFormLabel">
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            className="authFormInput"
+                        />
+                        {errors.password && (
+                            <p className="mt-1 text-sm text-red-500">{errors.password}</p>
+                        )}
+                    </div>
+                </div>
                 <button
                     type="submit"
                     disabled={loading}

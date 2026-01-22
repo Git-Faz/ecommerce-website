@@ -2,6 +2,7 @@ import type { JSX } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "@/api/authApi";
+import { toast } from "sonner";
 
 interface LoginReq {
     username: string;
@@ -48,17 +49,26 @@ export const LoginForm = (): JSX.Element => {
         const errs = validate(formData);
         if (Object.keys(errs).length) {
             setErrors(errs);
+            toast.error(errors.password || errors.username)
             return;
         }
         setErrors({});
+
         setLoading(true);
 
         try {
             const { data } = await login(formData);
+            toast.success("Logged in!")
             localStorage.setItem("token", data.token);
             localStorage.setItem("username", data.username);
             setFormData(initialForm);
             navigate("/");
+        } catch (err: any) {
+            if (err.response?.status === 401 || err.response?.status === 403) {
+                toast.error("Invalid username or password");
+            } else {
+                toast.error("Login failed. Try again.");
+            }
         } finally {
             setLoading(false);
         }
@@ -68,13 +78,11 @@ export const LoginForm = (): JSX.Element => {
         <div>
             <form
                 onSubmit={handleSubmit}
-                className="w-full max-w-sm space-y-6 rounded-xl bg-neutral-900 p-8 shadow-lg"
+                className="authForm"
             >
-                <h1 className="text-2xl font-semibold text-white text-center">
-                    Sign in
-                </h1>
+                <h1>Sign in</h1>
                 <div>
-                    <label className="block text-sm text-neutral-400 mb-1">
+                    <label className="authFormLabel">
                         Username
                     </label>
                     <input
@@ -82,7 +90,7 @@ export const LoginForm = (): JSX.Element => {
                         name="username"
                         value={formData.username}
                         onChange={handleChange}
-                        className="w-full rounded-md bg-neutral-800 px-3 py-2 text-white outline-none ring-1 ring-neutral-700 focus:ring-2 focus:ring-blue-500"
+                        className="authFormInput"
                     />
                     {errors.username && (
                         <p className="mt-1 text-sm text-red-500">{errors.username}</p>
@@ -90,7 +98,7 @@ export const LoginForm = (): JSX.Element => {
                 </div>
 
                 <div>
-                    <label className="block text-sm text-neutral-400 mb-1">
+                    <label className="authFormLabel">
                         Password
                     </label>
                     <input
@@ -98,7 +106,7 @@ export const LoginForm = (): JSX.Element => {
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
-                        className="w-full rounded-md bg-neutral-800 px-3 py-2 text-white outline-none ring-1 ring-neutral-700 focus:ring-2 focus:ring-blue-500"
+                        className="authFormInput"
                     />
                     {errors.password && (
                         <p className="mt-1 text-sm text-red-500">{errors.password}</p>
