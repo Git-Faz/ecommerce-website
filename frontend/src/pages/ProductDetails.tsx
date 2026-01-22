@@ -1,5 +1,5 @@
 import { useEffect, useState, type JSX } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getProductById } from "@/api/productApi";
 import { addToCart } from "@/api/cartApi";
 import { toast } from "sonner"
@@ -21,7 +21,7 @@ type RouteParams = {
 const ProductDetails = (): JSX.Element => {
 
     const { id } = useParams<RouteParams>();
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const [productDetails, setProductDetails] = useState<Product | null>(null);
 
     const productId = Number(id);

@@ -1,11 +1,9 @@
 import {
     NavigationMenu,
-    NavigationMenuContent,
 //    NavigationMenuIndicator,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
 import type { JSX } from "react";

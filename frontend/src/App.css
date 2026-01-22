@@ -80,6 +80,22 @@ min-height: 100vh;
     before:pointer-events-none
     }
 
+    .authForm {
+      @apply w-full max-w-sm space-y-6 rounded-xl bg-blue-100 p-8 shadow-lg;
+    }
+
+    .authFormLabel{
+      @apply block text-sm text-neutral-600 mb-1
+    }
+
+    .authFormInput {
+      @apply w-full rounded-md bg-white px-2 py-1 text-white outline-none ring-1 ring-neutral-700 focus:ring-2 focus:ring-blue-500 focus:bg-blue-200;
+    }
+
+    .authForm > h1 {
+      @apply text-2xl font-semibold text-neutral-600 text-center;
+    }
+
 }
 
 #itemMedia{
