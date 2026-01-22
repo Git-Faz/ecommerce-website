@@ -1,19 +1,18 @@
 import { getAllOrders } from "@/api/orderApi";
 import type { JSX } from "react";
 import { useState, useEffect } from "react";
-//import { useNavigate } from "react-router-dom";
+import OrderCard from "@/components/user/OrderCard";
 
-interface OrderItem {
+export interface OrderItem {
     id: number
     userId: number
     productName: string
     productImageUrl: string
     productPrice: number
     quantity: number
-    totalPrice: number
 }
 
-interface Order {
+export interface Order {
     id: number
     items: OrderItem[]
     totalAmount: number
@@ -49,27 +48,21 @@ const Order = (): JSX.Element => {
     }
 
     return (
-        <>
+        <div className="m-5 p-3">
             <h1 id="title">Your Orders</h1>
+            <div className="flex flex-col">
             {orders.map((order,index) => (
-                <div key={order.id} className=" m-2 p-2 border-b-2 border-gray-600">
-                    <h2> {index+1} <br /> Order No.{order.id}</h2>
-                    <h3>Items:</h3>
-                    <ul>
-                        {order.items.map(item => (
-                            <li key={item.id}>
-                                <strong>{item.productName}</strong> × {item.quantity} <br />
-                                ₹{item.totalPrice}
-                            </li>
-                        ))}
-                    </ul>
-
-                    <h6>Total: ₹{order.totalAmount}</h6>
-                    <p>Status: {order.status}</p>
-                </div>
+                <OrderCard
+                    key={index}
+                    id={order.id}
+                    items={order.items}
+                    totalAmount={order.totalAmount}
+                    status={order.status}
+                />
             ))}
+            </div>
 
-        </>
+        </div>
     )
 }
 
