@@ -13,15 +13,18 @@ import java.util.List;
 public class CustomUserDetails implements UserDetails {
 
     private final Long id;
+    private final String email;
     private final String username;
     private final String password;
     private final String role;
+
 
     public CustomUserDetails(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.role = user.getRole();
+        this.email = user.getEmail();
     }
 
     @Override

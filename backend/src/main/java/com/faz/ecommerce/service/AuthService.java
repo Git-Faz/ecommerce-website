@@ -41,11 +41,9 @@ public class AuthService {
 
         userRepo.save(user);
 
-        String token = jwtUtil.generateToken(
-                user.getId(),
-                user.getUsername(),
-                user.getRole()
-        );
+        CustomUserDetails principal = new CustomUserDetails(user);
+
+        String token = jwtUtil.generateToken(principal);
 
         return AuthResponse.builder()
                 .token(token)
@@ -53,6 +51,7 @@ public class AuthService {
                 .role(user.getRole())
                 .build();
     }
+
 
     public AuthResponse login(LoginRequest request) {
 
@@ -65,11 +64,7 @@ public class AuthService {
 
         CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
 
-        String token = jwtUtil.generateToken(
-                principal.getId(),
-                principal.getUsername(),
-                principal.getRole()
-        );
+        String token = jwtUtil.generateToken(principal);
 
         return AuthResponse.builder()
                 .token(token)

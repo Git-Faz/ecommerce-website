@@ -19,11 +19,12 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    public String generateToken(Long userId, String username, String role) {
+    public String generateToken(CustomUserDetails user) {
         return Jwts.builder()
-                .subject(userId.toString())
-                .claim("username", username)
-                .claim("role", role)
+                .subject(user.getId().toString())
+                .claim("email",user.getEmail())
+                .claim("username", user.getUsername())
+                .claim("role", user.getRole())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey())
@@ -48,6 +49,10 @@ public class JwtUtil {
 
     public String extractRole(String token) {
         return extractAllClaims(token).get("role", String.class);
+    }
+
+    public String extractEmail(String token) {
+        return extractAllClaims(token).get("email", String.class);
     }
 
     public boolean validateToken(String token, Long userId) {

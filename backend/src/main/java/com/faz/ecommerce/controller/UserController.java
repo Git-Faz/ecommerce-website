@@ -1,21 +1,30 @@
 package com.faz.ecommerce.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import com.faz.ecommerce.dto.ApiResponse;
+import com.faz.ecommerce.dto.ProfileResponse;
+import com.faz.ecommerce.security.JwtUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/user-profile")
+@RequiredArgsConstructor
 public class UserController {
-    @GetMapping("/profile")
-    public String getProfile(Authentication authentication) {
-        String roles = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .map(r -> r.replace("ROLE_", ""))
-                .collect(Collectors.joining(", "));
 
-        return "Welcome " + authentication.getName() + "! Your role is: " + roles;
+    private final JwtUtil jwtUtil;
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<ProfileResponse>> getProfile(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+
+        String username = jwtUtil.extractUsername(token);
+        String email = jwtUtil.extractEmail(token);
+        String role = jwtUtil.extractRole(token);
+
+        ProfileResponse profile = new ProfileResponse(email,username, role);
+        return ResponseEntity.ok(new ApiResponse<>(profile));
     }
+
 }
