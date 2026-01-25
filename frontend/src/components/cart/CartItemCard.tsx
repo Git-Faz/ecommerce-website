@@ -11,6 +11,7 @@ import { TrashIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CartItem {
+    serialNo?:number;
     name: string;
     price: number;
     quantity: number;
@@ -23,14 +24,13 @@ interface CartItem {
 
 
 
-const CartItemCard = ({name, price, quantity, imageUrl, total, onDelete, classname }: CartItem): JSX.Element => {
+const CartItemCard = ({name, price, quantity, imageUrl, total, onDelete, classname, serialNo }: CartItem): JSX.Element => {
     return (
-
         <Item className={cn(
-        "m-5 min-w-fit w-3xl align-middle justify-center shadow-md shadow-neutral-500",
+        "m-5 min-w-fit w-3xl h-fit align-middle justify-center shadow-md shadow-neutral-500",
         classname
-      )} >
-            <ItemMedia variant="image" className="flex size-24 self-center" id="itemMedia">
+      )} >{serialNo}
+            <ItemMedia variant="image" className="flex size-24 sm:size-10 self-center" id="itemMedia">
                 <img src={imageUrl} alt="product image" className="m-0 self-center" />
             </ItemMedia>
             <ItemContent>
