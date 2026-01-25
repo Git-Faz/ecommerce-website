@@ -50,7 +50,6 @@ public class CartController {
         return ResponseEntity.noContent().build();
     }
 
-    @Transactional
     @DeleteMapping
     public ResponseEntity<Void> clearCart() {
         cartService.clearCart();

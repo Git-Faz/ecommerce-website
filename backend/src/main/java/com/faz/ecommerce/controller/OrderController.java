@@ -33,7 +33,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<ApiResponse<OrderResponse>> getOrder (@PathVariable Long orderId){
+    public ResponseEntity<ApiResponse<OrderResponse>> getOrderById (@PathVariable Long orderId){
         Order order = orderRepo.getOrderById(orderId);
         OrderResponse response = orderService.mapToOrderResponse(order);
         return ResponseEntity.ok(new ApiResponse<>(response));
