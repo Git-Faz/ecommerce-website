@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import placeholder from "../assets/placeholder.jpg"
 import { addToCart } from "@/api/cartApi";
 import { toast } from "sonner";
+import { isLoggedIn } from "@/lib/utils";
 
 
 export interface Product {
@@ -33,7 +34,7 @@ const Home = (): JSX.Element => {
     }, [])
 
     function addCart(prodId: number, qty = 1) {
-        if (!localStorage.getItem('token')) {
+        if (!isLoggedIn) {
             toast.info(
                 <>
                     <Link to="/auth" className="underline">
@@ -49,8 +50,8 @@ const Home = (): JSX.Element => {
     }
 
     return (
-        <div className="h-full space-x-3 ">
-            <div className="flex flex-row gap-x-4 m-10">
+        <div className="h-full space-x-3 flex-wrap ">
+            <div className="flex flex-row gap-x-4 m-10 flex-wrap">
                 {productData.map(product => (
                     <ProductCard
                         key={product.id}

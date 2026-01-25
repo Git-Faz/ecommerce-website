@@ -62,12 +62,13 @@ const Checkout = (): JSX.Element => {
                     {orderItems.map((item: OrderItem, i) => (
                         <CartItemCard
                             key={i}
+                            serialNo={i+1}
                             name={item.productName}
                             imageUrl={item.productImageUrl}
                             price={item.productPrice}
                             quantity={item.quantity}
                             total={item.totalPrice}
-                            classname="w-full mt-0 mb-1 shadow-2xs shadow-accent"
+                            classname="w-full mt-0 mb-1 shadow-2xs shadow-accent h-fit"
 
                         />
                     ))}

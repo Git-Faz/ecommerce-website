@@ -2,7 +2,8 @@ import { useEffect, useState, type JSX } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getProductById } from "@/api/productApi";
 import { addToCart } from "@/api/cartApi";
-import { toast } from "sonner"
+import { toast } from "sonner";
+import { isLoggedIn } from "@/lib/utils";
 
 interface Product {
     id: number;
@@ -37,7 +38,7 @@ const ProductDetails = (): JSX.Element => {
     }, [productId]);
 
     function addCart(prodId: number, qty = 1) {
-        if (!localStorage.getItem('token')) {
+        if (!isLoggedIn) {
             toast.info(
                 <>
                     <Link to="/auth" className="underline">
