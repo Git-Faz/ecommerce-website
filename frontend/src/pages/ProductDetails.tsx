@@ -4,6 +4,8 @@ import { getProductById } from "@/api/productApi";
 import { addToCart } from "@/api/cartApi";
 import { toast } from "sonner";
 import { isLoggedIn } from "@/lib/utils";
+import ProductInfo from "@/components/product/ProductInfo";
+
 
 interface Product {
     id: number;
@@ -15,30 +17,23 @@ interface Product {
     imageUrl: string;
 }
 
-type RouteParams = {
-    id: string; // URL params are strings
-};
-
 const ProductDetails = (): JSX.Element => {
-
-    const { id } = useParams<RouteParams>();
-    //const navigate = useNavigate();
+    const { id } = useParams();
     const [productDetails, setProductDetails] = useState<Product | null>(null);
+    const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
 
     const productId = Number(id);
-    useEffect(() => {
 
+    useEffect(() => {
         if (!id) return;
+
         getProductById(productId)
-            .then(res => {
-                console.log(res.data);
-                setProductDetails(res.data);
-            })
-            .catch(e => `Unexpected error; ${e}`)
+            .then(res => setProductDetails(res.data))
+            .catch(e => console.error(e));
     }, [productId]);
 
-    function addCart(prodId: number, qty = 1) {
-        if (!isLoggedIn) {
+    function addCart(prodId: number, qty: number) {
+        if (!isLoggedIn()) {
             toast.info(
                 <>
                     <Link to="/auth" className="underline">
@@ -46,34 +41,37 @@ const ProductDetails = (): JSX.Element => {
                     </Link>{" "}
                     to add items to cart
                 </>
-            )
-        } else {
-            addToCart(prodId, qty)
-            toast.success("Item added to cart!")
+            );
+            return;
         }
+
+        addToCart(prodId, qty);
+        toast.success("Item added to cart!");
     }
 
-
     if (!productDetails) {
-        return <h1>Product doesnt exist</h1>;
+        return <h1>Product doesn’t exist</h1>;
     }
 
     return (
-        <div id="product-details">
-            <div className="flex flex-row justify-around p-5">
-                <img src={productDetails.imageUrl} className="w-full max-w-md" alt="" />
-                <div className="flex flex-col justify-evenly">
-                    <h2 className="text-4xl">{productDetails?.name}</h2>
-                    <h5 className="text-2xl">₹{productDetails?.price}</h5>
-                    <div className=" flex-row">
-                        <h6 className="text-xl mb-3 underline underline-offset-6 ">About the product: </h6>
-                        <p className="text-lg">{productDetails?.description}</p>
-                    </div>
-                    <button onClick={() => addCart(productDetails.id,1)} className="bg-blue-500 text-white px-4 py-2 rounded">Add to cart</button>
-                </div>
-            </div>
+        <div className="flex p-10">
+            <ProductInfo
+                name={productDetails.name}
+                description={productDetails.description}
+                price={productDetails.price}
+                imageUrl={productDetails.imageUrl}
+                categories={productDetails.categories}
+                stock={6}
+                quantity={selectedQuantity}
+                onQuantityChange={setSelectedQuantity}
+                onButtonClick={() =>
+                    addCart(productDetails.id, selectedQuantity)
+                }
+            />
         </div>
-    )
-}
+    );
+};
+
+
 
 export default ProductDetails;

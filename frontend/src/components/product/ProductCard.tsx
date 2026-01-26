@@ -20,14 +20,11 @@ interface ProductCard {
 }
 
 const ProductCard = ({ img, name, price, onClick, onBtnClick }: ProductCard): JSX.Element => {
-
     return (
         <Card id="productCard">
-
             <div onClick={onClick}>
                 <img src={img.link} alt={img.alt} className="w-full max-w-56 h-fit p-0 m-0 gap-0 border-b border-purple-200 rounded-t-lg"></img>
             </div>
-
             <CardHeader className="gap-0 px-3 text-center" onClick={onClick}>
                 <CardTitle>{name}</CardTitle>
             </CardHeader>
