@@ -6,10 +6,11 @@ interface BodyProps {
 
 export default function Body({ children }: BodyProps): JSX.Element {
   return (
-    <main className="flex-1 w-full bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-6">
+    <main className="flex-1 w-full">
+      <div className="mx-auto max-w-7xl px-4">
         {children}
       </div>
     </main>
   );
 }
+

@@ -3,8 +3,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
-body {
-min-height: 100vh;
+body, main {
+
   background:
     radial-gradient(
       600px circle at top left,
@@ -113,7 +113,7 @@ min-height: 100vh;
 
 #product-details {
 
-    min-height:100vh ;
+    min-width:100vw ;
 
     background:
       radial-gradient(

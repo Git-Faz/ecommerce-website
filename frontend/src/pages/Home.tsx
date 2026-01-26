@@ -51,7 +51,7 @@ const Home = (): JSX.Element => {
 
     return (
         <div className="h-full space-x-3 flex-wrap ">
-            <div className="flex flex-row gap-x-4 m-10 flex-wrap">
+            <div className="flex flex-row gap-x-4 m-5 flex-wrap">
                 {productData.map(product => (
                     <ProductCard
                         key={product.id}
