@@ -34,7 +34,7 @@ const Home = (): JSX.Element => {
     }, [])
 
     function addCart(prodId: number, qty = 1) {
-        if (!isLoggedIn) {
+        if (!isLoggedIn()) {
             toast.info(
                 <>
                     <Link to="/auth" className="underline">
