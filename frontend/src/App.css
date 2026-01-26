@@ -112,12 +112,15 @@ body, main {
 }
 
 #product-details {
-
-    min-width:100vw ;
-
+    width: 100%;
     background:
       radial-gradient(
         700px circle at top left,
+        rgba(168, 85, 247, 0.08),
+        transparent 65%
+      ),
+      radial-gradient(
+        700px circle at top right,
         rgba(168, 85, 247, 0.08),
         transparent 65%
       ),
@@ -126,7 +129,12 @@ body, main {
         rgba(59, 130, 246, 0.08),
         transparent 65%
       ),
-      #f9fafb;
+      radial-gradient(
+        700px circle at bottom left,
+        rgba(59, 130, 246, 0.08),
+        transparent 65%
+      )
+      #ffffff;
 
 }
 
