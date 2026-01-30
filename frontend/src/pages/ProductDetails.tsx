@@ -61,7 +61,7 @@ const ProductDetails = (): JSX.Element => {
                 price={productDetails.price}
                 imageUrl={productDetails.imageUrl}
                 categories={productDetails.categories}
-                stock={6}
+                stock={25}
                 quantity={selectedQuantity}
                 onQuantityChange={setSelectedQuantity}
                 onButtonClick={() =>

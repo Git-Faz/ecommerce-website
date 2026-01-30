@@ -7,18 +7,20 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { User2Icon } from "lucide-react";
+import { MoonIcon, SunIcon, User2Icon } from "lucide-react";
 import { ShoppingCartIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { JSX } from "react";
+import { useTheme } from "@/hooks/useTheme";
 import { Button } from "../ui/button";
-
 interface NavItem {
     label: string
     href: string
 }
 
 const Header = (): JSX.Element => {
+
+    const {theme, toggleTheme} = useTheme();
 
     let navItems: NavItem[] = [
         {
@@ -56,11 +58,13 @@ const Header = (): JSX.Element => {
                         }
                     </div>
                     <div className="w-fit flex flex-row align-middle items-center ">
+                        <Button variant={"outline"} onClick={toggleTheme}>{theme === "dark" ? <SunIcon/> : <MoonIcon/>}</Button>
                         <NavigationMenuItem className="flex items-center flex-col hover:bg-background rounded-md p-1 ">
                                 <Link to={"/cart"} className="flex flex-row gap-x-2 justify-center items-center text-lg px-2 font-semibold content-center"><ShoppingCartIcon size={20}/>Cart</Link>
                         </NavigationMenuItem>
 
                         <NavigationMenuItem>
+                            
                             <NavigationMenuTrigger className="flex items-center gap-2 bg-transparent z-100 text-lg">
                                 <User2Icon size={20} />
                                 <span className="font-semibold">My Account</span>
@@ -77,8 +81,8 @@ const Header = (): JSX.Element => {
                                     ))
                                 }
                             </NavigationMenuContent>
+                            
                         </NavigationMenuItem>
-
                     </div>
                 </NavigationMenuList>
             </NavigationMenu>
