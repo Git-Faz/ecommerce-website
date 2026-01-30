@@ -22,18 +22,18 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> showAllProducts (){
+    public ResponseEntity<List<Product>> showAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
-    @GetMapping(params = "name")
-    public ResponseEntity<List<Product>> getProductByName (@RequestParam String name){
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> getProductByName(@RequestParam String name) {
         return ResponseEntity.ok(productService.getProductsByName(name));
     }
 
     @PostMapping("/new-product")
     @PreAuthorize("hasAnyRole('ADMIN','SELLER')")
-    public ResponseEntity<ApiResponse<Product>> addSingleProduct(@Valid @RequestBody ProductRequest request){
+    public ResponseEntity<ApiResponse<Product>> addSingleProduct(@Valid @RequestBody ProductRequest request) {
         Product product = productService.addSingleProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ApiResponse<>("Product created successfully", product));
@@ -41,25 +41,27 @@ public class ProductController {
 
     @PatchMapping("/update/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','SELLER')")
-    public ResponseEntity<ApiResponse<Product>> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest request){
-        Product updatedProduct = productService.updateProduct(id,request);
+    public ResponseEntity<ApiResponse<Product>> updateProduct(@PathVariable Long id,
+            @Valid @RequestBody ProductRequest request) {
+        Product updatedProduct = productService.updateProduct(id, request);
         return ResponseEntity.ok(new ApiResponse<>("Product updated successfully"));
     }
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','SELLER')")
-    public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable Long id){
-         productService.deleteProduct(id);
+    public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
         return ResponseEntity.ok(new ApiResponse<>("Product deleted successfully"));
     }
 
-    @GetMapping(params = "categories")
-    public ResponseEntity<List<Product>> showProductsByCategory(@RequestParam Set<String> categories) {
+    @GetMapping("/by-category")
+    public ResponseEntity<List<Product>> showProductsByCategory(
+            @RequestParam Set<String> categories) {
         return ResponseEntity.ok(productService.getProductByCategory(categories));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id){
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.getProductById(id));
     }
 
