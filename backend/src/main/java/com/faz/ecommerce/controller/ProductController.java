@@ -3,7 +3,6 @@ package com.faz.ecommerce.controller;
 import com.faz.ecommerce.dto.ApiResponse;
 import com.faz.ecommerce.dto.ProductRequest;
 import com.faz.ecommerce.entity.Product;
-import com.faz.ecommerce.repository.ProductRepo;
 import com.faz.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
