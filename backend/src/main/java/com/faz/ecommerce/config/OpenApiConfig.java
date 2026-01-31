@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "E-Commerce Backend API",
+                title = "FazCart - E-Commerce Backend API",
                 version = "1.0",
                 description = "REST API for E-Commerce platform (Products, Cart, Orders, Auth, User profile)"
         )
