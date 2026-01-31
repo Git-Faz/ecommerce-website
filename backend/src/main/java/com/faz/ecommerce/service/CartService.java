@@ -4,6 +4,8 @@ import com.faz.ecommerce.dto.CartItemResponse;
 import com.faz.ecommerce.entity.CartItem;
 import com.faz.ecommerce.entity.Product;
 import com.faz.ecommerce.entity.User;
+import com.faz.ecommerce.exception.ResourceNotFoundException;
+import com.faz.ecommerce.exception.UnauthorizedException;
 import com.faz.ecommerce.repository.CartItemRepo;
 import com.faz.ecommerce.repository.ProductRepo;
 import com.faz.ecommerce.repository.UserRepo;
@@ -38,10 +40,10 @@ public class CartService {
         Long userId = getCurrentUserId();
         
         User user = userRepo.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User Doesnt Exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("User Doesnt Exist"));
 
         Product product = productRepo.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product doesnt exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product doesnt exist"));
 
         Optional<CartItem> existingItem = cartItemRepo.findByUserIdAndProductId(userId, productId);
 
@@ -69,7 +71,7 @@ public class CartService {
         Long userId = getCurrentUserId();
         
         CartItem item = cartItemRepo.findByUserIdAndProductId(userId, productId)
-                .orElseThrow(() -> new RuntimeException("Item not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Item not found"));
 
         if (quantity <= 0) throw new IllegalArgumentException("Quantity must be greater than zero");
 
@@ -88,11 +90,11 @@ public class CartService {
         Long userId = getCurrentUserId();
         
         CartItem item = cartItemRepo.findById(cartItemId)
-                .orElseThrow(() -> new RuntimeException("Cart item not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cart item not found"));
         
         // Verify the item belongs to the current user
         if (!item.getUser().getId().equals(userId)) {
-            throw new RuntimeException("Unauthorized access to cart item");
+            throw new UnauthorizedException("Unauthorized access to cart item");
         }
         
         cartItemRepo.deleteById(cartItemId);

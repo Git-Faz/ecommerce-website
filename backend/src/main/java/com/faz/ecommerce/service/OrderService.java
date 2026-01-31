@@ -4,6 +4,8 @@ import com.faz.ecommerce.dto.CartItemResponse;
 import com.faz.ecommerce.dto.OrderResponse;
 import com.faz.ecommerce.entity.*;
 import com.faz.ecommerce.enums.OrderStatus;
+import com.faz.ecommerce.exception.BadRequestException;
+import com.faz.ecommerce.exception.ResourceNotFoundException;
 import com.faz.ecommerce.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,11 +32,11 @@ public class OrderService {
         List<CartItem> cartItems = cartItemRepo.findByUserId(userId);
 
         if (cartItems.isEmpty()){
-            throw new RuntimeException("Cart is empty");
+            throw new BadRequestException("Cart is empty");
         }
 
         User user = userRepo.findById(userId).
-        orElseThrow(() -> new RuntimeException("User Not found"));
+        orElseThrow(() -> new ResourceNotFoundException("User Not found"));
 
         //create new order
         Order order = new Order();
@@ -70,7 +72,7 @@ public class OrderService {
     }
 
     public Order getOrderById (Long orderId){
-        return orderRepo.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+        return orderRepo.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
     }
 
     public Order updateOrderStatus(Long orderId, OrderStatus status) {

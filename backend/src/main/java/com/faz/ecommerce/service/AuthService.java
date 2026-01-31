@@ -4,6 +4,7 @@ import com.faz.ecommerce.dto.AuthResponse;
 import com.faz.ecommerce.dto.LoginRequest;
 import com.faz.ecommerce.dto.RegisterRequest;
 import com.faz.ecommerce.entity.User;
+import com.faz.ecommerce.exception.BadRequestException;
 import com.faz.ecommerce.repository.UserRepo;
 import com.faz.ecommerce.security.CustomUserDetails;
 import com.faz.ecommerce.security.JwtUtil;
@@ -26,10 +27,10 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request) {
 
         if (userRepo.existsByUsername(request.getUsername())) {
-            throw new IllegalArgumentException("Username already exists");
+            throw new BadRequestException("Username already exists");
         }
         if (userRepo.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new BadRequestException("Email already exists");
         }
 
         User user = User.builder()

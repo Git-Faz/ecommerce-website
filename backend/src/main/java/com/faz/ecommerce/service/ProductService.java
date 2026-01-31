@@ -2,6 +2,8 @@ package com.faz.ecommerce.service;
 
 import com.faz.ecommerce.dto.ProductRequest;
 import com.faz.ecommerce.entity.Product;
+import com.faz.ecommerce.exception.BadRequestException;
+import com.faz.ecommerce.exception.ResourceNotFoundException;
 import com.faz.ecommerce.repository.ProductRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,14 +30,14 @@ public class ProductService {
     public List<Product> getProductsByName(String name){
         List<Product> products = productRepo.findByNameContainingIgnoreCase(name);
         if(products.isEmpty()){
-            throw new RuntimeException("Product doesn't exist");
+            throw new ResourceNotFoundException("Product doesn't exist");
         }
         return products;
     }
 
     public Product addSingleProduct (ProductRequest request ){
         if (productRepo.existsByNameIgnoreCase( "this product already exists")){
-            throw new RuntimeException("Product already exists");
+            throw new BadRequestException("Product already exists");
         }
 
         Product product = new Product();
@@ -50,7 +52,7 @@ public class ProductService {
 
     public Product updateProduct(Long id, ProductRequest request){
         Product p = productRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Item Not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Item Not found"));
 
         if (request.getName() != null) p.setName(request.getName());
         if (request.getDescription() != null) p.setDescription(request.getDescription());
@@ -71,14 +73,14 @@ public class ProductService {
     public List<Product> getProductByCategory(Set<String> categories) {
         List<Product> products = productRepo.findByCategoriesIn(categories);
         if(products.isEmpty()){
-            throw new RuntimeException("There are no products in this category");
+            throw new ResourceNotFoundException("There are no products in this category");
         }
         return products;
     }
 
     public Product getProductById(Long id){
         return productRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product doesn't exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product doesn't exist"));
     }
 
 
