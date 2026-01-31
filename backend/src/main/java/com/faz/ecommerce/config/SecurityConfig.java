@@ -29,26 +29,35 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain (HttpSecurity http, CorsConfigurationSource corsConfigurationSource)
-    throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            CorsConfigurationSource corsConfigurationSource
+    ) throws Exception {
+    
         http
             .csrf(csrf -> csrf.disable())
             .cors(cors ->
                     cors.configurationSource(corsConfigurationSource))
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/").permitAll()
-                    .requestMatchers("/api","/swagger-ui/**","/v3/api-docs/**").permitAll()
-                    .requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers("/api/products/**").permitAll()
-                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                    .anyRequest().authenticated()
+                .requestMatchers(
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**",
+                    "/swagger-ui.html"
+                ).permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/products/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/error").permitAll()
+                .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+    
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){
