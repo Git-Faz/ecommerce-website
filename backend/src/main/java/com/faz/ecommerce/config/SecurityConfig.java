@@ -2,6 +2,8 @@ package com.faz.ecommerce.config;
 
 import com.faz.ecommerce.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,7 +34,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .cors(cors ->
-                    cors.configurationSource(corsConfigurationSource()))
+                    cors.configurationSource(corsConfigurationSource))
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/").permitAll()
                     .requestMatchers("/api","/swagger-ui/**","/v3/api-docs/**").permitAll()
@@ -59,9 +61,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource(){
+    public CorsConfigurationSource corsConfigurationSource(@Value("${cors.allowed-origins}") String allowedOrigins){
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        config.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
         config.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowCredentials(true);
