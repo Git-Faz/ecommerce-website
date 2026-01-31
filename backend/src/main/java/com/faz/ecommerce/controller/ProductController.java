@@ -41,7 +41,7 @@ public class ProductController {
 
     @PatchMapping("/update/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','SELLER')")
-    public ResponseEntity<ApiResponse<Product>> updateProduct(@PathVariable Long id,
+    public ResponseEntity<ApiResponse<Product>> updateProduct(@Valid @PathVariable Long id,
             @Valid @RequestBody ProductRequest request) {
         Product updatedProduct = productService.updateProduct(id, request);
         return ResponseEntity.ok(new ApiResponse<>("Product updated successfully"));

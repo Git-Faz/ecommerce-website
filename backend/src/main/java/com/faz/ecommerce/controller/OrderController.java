@@ -7,6 +7,8 @@ import com.faz.ecommerce.enums.OrderStatus;
 import com.faz.ecommerce.repository.OrderRepo;
 import com.faz.ecommerce.security.CustomUserDetails;
 import com.faz.ecommerce.service.OrderService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +53,7 @@ public class OrderController {
     }
 
     @PatchMapping("/{orderId}/status")
-    public ResponseEntity<ApiResponse<Order>> updateStatus(@PathVariable Long orderId,
+    public ResponseEntity<ApiResponse<Order>> updateStatus(@Valid @PathVariable Long orderId,
                                                            @RequestParam OrderStatus status) {
         Order updatedOrder = orderService.updateOrderStatus(orderId, status);
         return ResponseEntity.ok(new ApiResponse<>("Status updated", updatedOrder));
