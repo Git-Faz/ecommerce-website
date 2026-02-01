@@ -61,7 +61,7 @@ const Cart = (): JSX.Element => {
 
 
     return (
-        <div className="m-5 p-5">
+        <div className="m-5 p-5 min-w-fit w-3xl max-w-3xl">
             <h1 id="title" >
                 My Cart
             </h1>
@@ -76,11 +76,12 @@ const Cart = (): JSX.Element => {
                             quantity={item.quantity}
                             total={item.totalPrice}
                             onDelete={() => handleDelete(item.id)}
+                            classname="min-w-fit w-3xl shadow-blue-200 shadow-md  dark:shadow-none "
                         />
                     ))
                 }
             </div>
-            <div className="flex justify-end gap-x-5 min-w-fit w-3xl">
+            <div className="flex justify-end gap-x-5 mx-auto min-w-fit w-3xl max-w-3xl">
                 <Button variant={"destructive"} size={"sm"} onClick={handleClearCart} className="bg-red-300 text-black hover:bg-red-500" >Clear</Button>
                 <Button size={"sm"} onClick={handleCheckout} className="bg-green-300 text-black hover:bg-green-400"
                 >Proceed to buy</Button>

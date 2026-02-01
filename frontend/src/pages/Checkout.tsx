@@ -57,8 +57,8 @@ const Checkout = (): JSX.Element => {
         <div className="m-5 p-5">
             <h1 id="title" className="mb-4">Checkout</h1>
 
-            <div className="grid gap-6 md:grid-cols-2 align-top gap-x-24">
-                <div className="flex flex-col space-y-4 align-top shadow-md rounded-lg shadow-blue-300">
+            <div className="grid gap-6 md:grid-cols-2 align-top gap-x-24 w-full">
+                <div className="flex flex-col h-100.75 min-h-fit justify-center my-auto gap-y-6 p-4 align-top shadow-md rounded-lg shadow-blue-300 overflow-hidden">
                     {orderItems.map((item: OrderItem, i) => (
                         <CartItemCard
                             key={i}
@@ -68,13 +68,13 @@ const Checkout = (): JSX.Element => {
                             price={item.productPrice}
                             quantity={item.quantity}
                             total={item.totalPrice}
-                            classname="w-full mt-0 mb-1 shadow-2xs shadow-accent h-fit"
+                            classname="w-full mt-0 mb-2 mx-auto shadow-2xs shadow-accent h-fit"
 
                         />
                     ))}
                 </div>
 
-                <Card className="h-fit shadow-mdshadow-blue-300">
+                <Card className="h-fit shadow-md shadow-blue-300 bg-inherit">
                     <CardHeader>
                         <CardTitle>Order Summary</CardTitle>
                     </CardHeader>

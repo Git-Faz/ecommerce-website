@@ -12,10 +12,10 @@ import { type Order } from "@/pages/Order";
 const OrderCard = ({ id, items, totalAmount, status }: Order): JSX.Element => {
   return (
     <Item variant={"default"} 
-    className="min-w-[50%] max-w-fit w-fit mx-10 mt-10 border-b-neutral-500 bg-neutral-100/30 shadow-md shadow-neutral-400 ">
-      <ItemContent>
-        <ItemTitle className="text-2xl text-neutral-800">Order #{id}</ItemTitle>
-        <ItemDescription className="flex flex-col text-neutral-800">
+    className="min-w-[50%] max-w-fit w-fit mx-10 mt-10 dark:bg-gray-800 dark:text-white shadow-blue-200 shadow-md  dark:shadow-none ">
+      <ItemContent className="text-black dark:text-white">
+        <ItemTitle className="text-2xl">Order #{id}</ItemTitle>
+        <ItemDescription className="flex flex-col">
           
             <span className="text-xl"> Items: </span>
 
@@ -34,8 +34,8 @@ const OrderCard = ({ id, items, totalAmount, status }: Order): JSX.Element => {
         </ItemDescription>
       </ItemContent>
       <ItemActions className="align-top text-sm flex-col">
-        <button className="p-2 text-[14px] bg-blue-200 hover:bg-blue-400 rounded-md min-w-35 max-w-fit">Exchange / Refund</button>
-        <button className="p-2 text-[14px] bg-blue-200 hover:bg-blue-400 rounded-md min-w-35 max-w-fit">View Details</button>
+        <button className="p-2 text-[14px] bg-blue-200 dark:bg-blue-500 dark:hover:bg-blue-200 dark:hover:text-black hover:bg-blue-400 rounded-md min-w-35 max-w-fit">Exchange / Refund</button>
+        <button className="p-2 text-[14px] bg-blue-200 dark:bg-blue-500 dark:hover:bg-blue-200 dark:hover:text-black hover:bg-blue-400 rounded-md min-w-35 max-w-fit">View Details</button>
       </ItemActions>
     </Item>
   )

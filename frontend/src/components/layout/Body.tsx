@@ -7,7 +7,7 @@ interface BodyProps {
   classname?: string
 }
 
-export default function Body({ children, classname = "mx-auto max-w-7xl px-4 " }: BodyProps,): JSX.Element {
+export default function Body({ children, classname = "mx-auto max-w-8xl px-4" }: BodyProps,): JSX.Element {
 
   const {theme} = useTheme();
 

@@ -43,14 +43,14 @@ const Header = (): JSX.Element => {
 
     return (
         <div className="m-0">
-            <NavigationMenu viewport={false} className="mx-auto border border-b border-neutral-400 shadow-neutral-500 shadow-md "  >
+            <NavigationMenu viewport={false} className="mx-auto shadow-blue-200 dark:shadow-blue-500 shadow-sm "  >
                 <NavigationMenuList id="navmenu"  >
                     <div className="flex flex-row m-2">
                         {
                             navItems.map((item, index) => (
 
                                 <NavigationMenuItem key={index} className="z-100">
-                                    <NavigationMenuLink asChild className="text-xl text-black font-semibold hover:font-semibold">
+                                    <NavigationMenuLink asChild className="text-xl font-semibold hover:font-semibold">
                                         <Link to={item.href}>{item.label}</Link>
                                     </NavigationMenuLink>
                                 </NavigationMenuItem>

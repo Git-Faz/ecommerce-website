@@ -67,18 +67,18 @@ const ProductInfo = ({
 }: ProductInfoProps): JSX.Element => {
 
     return (
-        <Card className="flex flex-row w-full align-middle justify-start content-center shadow-lg shadow-blue-200 ">
+        <Card className="flex flex-row w-full align-middle justify-start content-start p-8 ">
             <div className="w-xl flex align-top justify-start content-start">
                 <img src={imageUrl} alt="product image" className="object-contain min-w-50 w-xl max-w-3xl " />
             </div>
 
-            <CardContent className="w-1/2 align-middle justify-center content-center space-y-8 h-full  ">
-                <CardTitle className="text-3xl">{name}</CardTitle>
-                <div><span className="text-2xl">₹{price}</span></div>
+            <CardContent className="w-1/2 flex flex-col align-middle justify-start content-center space-y-8 h-full  ">
+                <CardTitle className="text-6xl">{name}</CardTitle>
+                <div><span className="text-4xl">₹{price}</span></div>
 
                 <div>
-                    <h4 className="text-xl">Description:</h4>
-                    <p className="text-md">{description}</p>
+                    <h4 className="text-3xl">Description:</h4>
+                    <p className="text-xl">{description}</p>
                 </div>
 
                 <div>
@@ -86,9 +86,9 @@ const ProductInfo = ({
                 </div>
 
                 <div className="space-x-2 flex flex-row align-middle content-center justify-center w-fit">
-                    <span className=" text-center align-middle p-1">Quantity:</span> 
+                    <span className=" text-center align-middle p-1 text-xl">Quantity:</span> 
                     <QuantityCounter
-                        max={stock}
+                        max={5}
                         value={quantity}
                         onChange={onQuantityChange}
 
