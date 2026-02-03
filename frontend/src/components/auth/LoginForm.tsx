@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "@/api/authApi";
 import { toast } from "sonner";
+import Loading from "../ui/Loading";
 
 interface LoginReq {
     username: string;
@@ -73,6 +74,10 @@ export const LoginForm = (): JSX.Element => {
             setLoading(false);
         }
     };
+
+    if(loading){
+        return <Loading message="Signing in..."/>
+    }
 
     return (
         <div>

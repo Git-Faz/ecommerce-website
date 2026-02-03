@@ -69,7 +69,7 @@ const ProductInfo = ({
     return (
         <Card className="flex flex-row w-full align-middle justify-start content-start p-8 ">
             <div className="w-xl flex align-top justify-start content-start">
-                <img src={imageUrl} alt="product image" className="object-contain min-w-50 w-xl max-w-3xl " />
+                <img src={imageUrl} alt="product image" className="object-contain min-w-lg w-xl max-w-xl " />
             </div>
 
             <CardContent className="w-1/2 flex flex-col align-middle justify-start content-center space-y-8 h-full  ">

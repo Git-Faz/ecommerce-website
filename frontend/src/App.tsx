@@ -8,7 +8,7 @@ import Footer from './components/layout/Footer'
 
 export default function App(): JSX.Element {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col w-fit max-w-7xl mx-auto">
       <Header />
       <Body>
         <AppRoutes />

@@ -101,6 +101,10 @@ body, main {
     .authForm > h1 {
       @apply text-2xl font-semibold text-neutral-600 dark:text-neutral-200 text-center;
     }
+    
+    .loading {
+      @apply flex flex-col items-center justify-center h-full flex-1 min-h-[calc(100vh-200px)]
+    }
 
 }
 
@@ -204,7 +208,7 @@ body, main {
 --radius: 0.625rem;
 --background: #f9fafb;
 --foreground: oklch(0.145 0 0);
---card: oklch(1 0 0);
+--card: #fdfaef;
 --card-foreground: oklch(0.145 0 0);
 --popover: oklch(1 0 0);
 --popover-foreground: oklch(0.145 0 0);
