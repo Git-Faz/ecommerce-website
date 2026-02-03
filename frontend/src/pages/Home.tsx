@@ -1,4 +1,4 @@
-import { useEffect, useState, type JSX } from "react";
+import { useEffect, useState, type JSX, use, Suspense, } from "react";
 import { Link } from "react-router-dom";
 import { getAllProducts } from "@/api/productApi";
 import ProductCard from "@/components/product/ProductCard";
@@ -7,6 +7,7 @@ import placeholder from "../assets/placeholder.jpg"
 import { addToCart } from "@/api/cartApi";
 import { toast } from "sonner";
 import { isLoggedIn } from "@/lib/utils";
+import Loading from "@/components/ui/Loading";
 
 
 export interface Product {
@@ -19,19 +20,12 @@ export interface Product {
     imageUrl: string;
 }
 
-const Home = (): JSX.Element => {
+const productPromise = getAllProducts();
 
-    const [productData, setProductData] = useState<Product[]>([]);
+function ProductsList (): JSX.Element {
+    const {data: productData} = use(productPromise);
+
     const navigate = useNavigate();
-
-    useEffect(() => {
-        getAllProducts()
-            .then(res => {
-                console.log(res.data);
-                setProductData(res.data)
-            })
-            .catch(e => `An error occured: ${e}`)
-    }, [])
 
     function addCart(prodId: number, qty = 1) {
         if (!isLoggedIn()) {
@@ -70,8 +64,19 @@ const Home = (): JSX.Element => {
             </div>
 
         </div>
-
     )
 }
+
+const Home = (): JSX.Element => {
+
+        return (
+        <Suspense fallback={<Loading message="Loading Products..."/>} >
+            <ProductsList/>
+        </Suspense>
+    )
+}
+
+    
+
 
 export default Home;
