@@ -6,6 +6,7 @@ import { type AxiosResponse, AxiosError } from "axios";
 import CartItemCard from "@/components/cart/CartItemCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Loading from "@/components/ui/Loading";
 
 interface OrderItem {
     productId: number;
@@ -20,11 +21,13 @@ const Checkout = (): JSX.Element => {
 
     const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
     const navigate = useNavigate();
+    const [loading,setLoading] = useState<Boolean>(true);
 
     useEffect(() => {
         getCart()
             .then((res: AxiosResponse<OrderItem[]>) => {
                 setOrderItems(res.data);
+                setLoading(false);
                 console.log(res.data);
             })
             .catch((e: AxiosError) => {
@@ -32,11 +35,14 @@ const Checkout = (): JSX.Element => {
             });
     }, []);
 
-
     const total = useMemo(
         () => orderItems.reduce((sum, item) => sum + item.totalPrice, 0),
         [orderItems]
     );
+
+
+    if(loading) return <Loading/>
+
 
     const handleSubmission = async () => {
         try {

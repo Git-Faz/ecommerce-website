@@ -2,6 +2,7 @@ import { getAllOrders } from "@/api/orderApi";
 import type { JSX } from "react";
 import { useState, useEffect } from "react";
 import OrderCard from "@/components/user/OrderCard";
+import Loading from "@/components/ui/Loading";
 
 export interface OrderItem {
     id: number
@@ -37,7 +38,7 @@ const Order = (): JSX.Element => {
 
     if (loading) {
         return (
-            <h2>Loading</h2>
+            <Loading message="Loading your Orders... Please wait"/>
         )
     }
 

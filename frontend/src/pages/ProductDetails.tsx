@@ -5,6 +5,7 @@ import { addToCart } from "@/api/cartApi";
 import { toast } from "sonner";
 import { isLoggedIn } from "@/lib/utils";
 import ProductInfo from "@/components/product/ProductInfo";
+import Loading from "@/components/ui/Loading";
 
 
 interface Product {
@@ -21,6 +22,7 @@ const ProductDetails = (): JSX.Element => {
     const { id } = useParams();
     const [productDetails, setProductDetails] = useState<Product | null>(null);
     const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
+    const [loading,setLoading] = useState<Boolean>(true);
 
     const productId = Number(id);
 
@@ -28,7 +30,10 @@ const ProductDetails = (): JSX.Element => {
         if (!id) return;
 
         getProductById(productId)
-            .then(res => setProductDetails(res.data))
+            .then(res => {
+                setProductDetails(res.data)
+                setLoading(false);
+            })
             .catch(e => console.error(e));
     }, [productId]);
 
@@ -48,6 +53,8 @@ const ProductDetails = (): JSX.Element => {
         addToCart(prodId, qty);
         toast.success("Item added to cart!");
     }
+    
+    if(loading) return <Loading/>
 
     if (!productDetails) {
         return <h1>Product doesn’t exist</h1>;

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getCart, clearCart, deleteCartItem } from "@/api/cartApi";
 import CartItemCard from "@/components/cart/CartItemCard";
 import { Button } from "@/components/ui/button";
+import Loading from "@/components/ui/Loading";
 
 interface CartItem {
     id: number;
@@ -16,6 +17,7 @@ interface CartItem {
 
 const Cart = (): JSX.Element => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
+    const [loading,setLoading] = useState<Boolean>(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,6 +25,7 @@ const Cart = (): JSX.Element => {
             .then(res => {
                 console.log(res.data)
                 setCartItems(res.data)
+                setLoading(false)
             })
             .catch(err => `Unexpected error: ${err}`)
     }, [])
@@ -40,6 +43,8 @@ const Cart = (): JSX.Element => {
         navigate("/checkout");
     }
 
+    if(loading) return <Loading/>
+    
     if (cartItems.length === 0) {
         return (
             <div>
@@ -58,7 +63,7 @@ const Cart = (): JSX.Element => {
         }
     }
 
-
+    
 
     return (
         <div className="m-5 p-5 min-w-fit w-3xl max-w-3xl">

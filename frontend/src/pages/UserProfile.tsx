@@ -6,11 +6,13 @@ import UserInfoCard from "@/components/user/UserInfoCard";
 import { type UserInfo } from "@/components/user/UserInfoCard";
 import { loadProfile } from "@/api/userApi";
 import { toast } from "sonner";
+import Loading from "@/components/ui/Loading";
 
 const UserProfile = (): JSX.Element => {
 
     const navigate = useNavigate();
     const [userdata, setUserData] = useState<UserInfo>({ name: "", email: "loading" })
+    const [loading,setLoading] = useState<Boolean>(true);
 
     useEffect(() => {
 
@@ -22,15 +24,17 @@ const UserProfile = (): JSX.Element => {
 
         loadProfile()
             .then(res => {
-                res.data
                 console.log(res.data.data);
                 setUserData(res.data.data);
+                setLoading(false)
             })
             .catch(e => {
                 console.log("Error", e)
                 navigate("/auth", { replace: true });
             })
     }, [navigate])
+
+    if(loading) return <Loading/>
 
 
     return (

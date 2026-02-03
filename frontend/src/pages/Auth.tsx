@@ -7,18 +7,18 @@ type AuthMode = "login" | "register";
 
 const Auth = () => {
   const [mode, setMode] = useState<AuthMode>("login");
+  const [loading, setLoading] = useState<Boolean>(true)
 
   return (
     <div>
       {isLoggedIn() ? (
-        // ✅ IF logged in
         <div className="mt-10 flex justify-center">
           <h1 className="text-[30px] text-blue-500">
             You're already logged in
           </h1>
         </div>
       ) : (
-        // ❌ ELSE (not logged in)
+
         <div className="mt-10 min-h-fit flex items-center justify-center">
           <div className="space-y-6">
             <div className="flex gap-4 justify-center">
