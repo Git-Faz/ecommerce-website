@@ -1,5 +1,6 @@
 import { getAllOrders } from "@/api/orderApi";
 import type { JSX } from "react";
+import {Suspense, use} from "react";
 import { useState, useEffect } from "react";
 import OrderCard from "@/components/user/OrderCard";
 import Loading from "@/components/ui/Loading";
@@ -20,39 +21,21 @@ export interface Order {
     status: string
 }
 
-const Order = (): JSX.Element => {
+const ordersPromise = getAllOrders();
 
-    const [orders, setOrders] = useState<Order[]>([]);
-    const [loading, setLoading] = useState(true);
-    //const navigate = useNavigate();
+const OrderList = (): JSX.Element => {
 
-    useEffect(() => {
-        getAllOrders()
-            .then(res => {
-                setOrders(res.data.data)
-                console.log(res.data)
-            })
-            .catch(e => console.error(e))
-            .finally(() => setLoading(false))
-    }, [])
+    const {data: response} = use(ordersPromise);
+    const orders = response.data;
+    console.log(orders);
 
-    if (loading) {
-        return (
-            <Loading message="Loading your Orders... Please wait"/>
-        )
-    }
-
-    if (orders.length === 0) {
-        return (
-            <h2>No orders yet!</h2>
-        )
-    }
+    if (orders.length === 0) return <h3 className="text-xl font-bold">No orders</h3>
 
     return (
         <div className="m-5 p-3">
             <h1 id="title">Your Orders</h1>
             <div className="flex flex-col">
-            {orders.map((order,index) => (
+            {orders.map((order:Order,index: number) => (
                 <OrderCard
                     key={index}
                     id={order.id}
@@ -62,8 +45,16 @@ const Order = (): JSX.Element => {
                 />
             ))}
             </div>
-
         </div>
+    )
+
+}
+
+const Order = (): JSX.Element => {
+    return (
+        <Suspense fallback = {<Loading message= "Loading Orders..."/>}>
+            <OrderList></OrderList>
+        </Suspense>
     )
 }
 
