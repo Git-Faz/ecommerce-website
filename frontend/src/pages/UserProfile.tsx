@@ -1,22 +1,32 @@
 import type { JSX } from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { isLoggedIn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
+import { useAppDispatch } from "@/store/hooks";
 import UserInfoCard from "@/components/user/UserInfoCard";
 import { type UserInfo } from "@/components/user/UserInfoCard";
 import { loadProfile } from "@/api/userApi";
 import { toast } from "sonner";
 import Loading from "@/components/ui/Loading";
+import { logout } from "@/store/slices/authSlice";
 
 const UserProfile = (): JSX.Element => {
 
+    const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
     const [userdata, setUserData] = useState<UserInfo>({ name: "", email: "loading" })
-    const [loading,setLoading] = useState<Boolean>(true);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    const dispatch = useAppDispatch();
+
+    const handleLogout = () => {
+        dispatch(logout());
+        toast.success("Logged out successfully");
+        //navigate("/auth", { replace: true });
+    };
 
     useEffect(() => {
-
-        if (!isLoggedIn()) {
+        if (!isLoggedIn) {
             toast.info("Login to view profile")
             navigate("/auth", { replace: true });
             return;
@@ -32,16 +42,16 @@ const UserProfile = (): JSX.Element => {
                 console.log("Error", e)
                 navigate("/auth", { replace: true });
             })
-    }, [navigate])
+    }, [isLoggedIn, navigate])
 
-    if(loading) return <Loading/>
-
+    if (loading) return <Loading />
 
     return (
         <div className="flex justify-center m-5 p-5">
             <UserInfoCard
                 name={userdata.name}
                 email={userdata.email}
+                onLogout={handleLogout}
             />
         </div>
     )

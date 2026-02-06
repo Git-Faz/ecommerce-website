@@ -1,4 +1,4 @@
-import { useEffect, useState, type JSX, use, Suspense, } from "react";
+import { type JSX, use, Suspense, } from "react";
 import { Link } from "react-router-dom";
 import { getAllProducts } from "@/api/productApi";
 import ProductCard from "@/components/product/ProductCard";
@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import placeholder from "../assets/placeholder.jpg"
 import { addToCart } from "@/api/cartApi";
 import { toast } from "sonner";
-import { isLoggedIn } from "@/lib/utils";
 import Loading from "@/components/ui/Loading";
+import { useAuth } from "@/hooks/useAuth";
 
 
 export interface Product {
@@ -25,10 +25,12 @@ const productPromise = getAllProducts();
 function ProductsList (): JSX.Element {
     const {data: productData} = use(productPromise);
 
+    const {isLoggedIn} = useAuth();
+
     const navigate = useNavigate();
 
     function addCart(prodId: number, qty = 1) {
-        if (!isLoggedIn()) {
+        if (!isLoggedIn) {
             toast.info(
                 <>
                     <Link to="/auth" className="underline">

@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom";
 export interface UserInfo {
     name: string
     email: string
+    onLogout?: () =>void
 }
 
-const UserInfoCard = ({name, email}: UserInfo): JSX.Element => {
+const UserInfoCard = ({name, email, onLogout}: UserInfo): JSX.Element => {
 
     const navigate = useNavigate(); 
 
@@ -21,6 +22,7 @@ const UserInfoCard = ({name, email}: UserInfo): JSX.Element => {
                 <CardAction className="flex flex-col gap-y-2">
                     <Button variant={"outline"} >Edit Profile</Button>
                     <Button variant={"outline"} onClick={() => navigate("/orders")}>View Orders</Button>
+                    <Button variant={"outline"} onClick={onLogout} >Logout</Button>
                 </CardAction>
             </CardHeader>
             <CardContent>

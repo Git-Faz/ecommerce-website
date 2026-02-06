@@ -4,6 +4,7 @@ import { getCart, clearCart, deleteCartItem } from "@/api/cartApi";
 import CartItemCard from "@/components/cart/CartItemCard";
 import { Button } from "@/components/ui/button";
 import Loading from "@/components/ui/Loading";
+import { useAuth } from "@/hooks/useAuth";
 
 interface CartItem {
     id: number;
@@ -17,10 +18,13 @@ interface CartItem {
 
 const Cart = (): JSX.Element => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
-    const [loading,setLoading] = useState<Boolean>(true);
+    const [loading, setLoading] = useState<boolean>(true);
     const navigate = useNavigate();
+    const {isLoggedIn} = useAuth();
 
     useEffect(() => {
+        if (!isLoggedIn) return;
+        
         getCart()
             .then(res => {
                 console.log(res.data)
@@ -28,7 +32,15 @@ const Cart = (): JSX.Element => {
                 setLoading(false)
             })
             .catch(err => `Unexpected error: ${err}`)
-    }, [])
+    }, [isLoggedIn])
+
+    if (!isLoggedIn) {
+        return (
+            <>
+                <h1>Please log in to view cart</h1>
+            </>
+        )
+    }
 
     const handleClearCart = async () => {
         try {

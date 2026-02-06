@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { RegisterForm } from "@/components/auth/RegisterForm";
-import { isLoggedIn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 
 type AuthMode = "login" | "register";
 
 const Auth = () => {
   const [mode, setMode] = useState<AuthMode>("login");
-  const [loading, setLoading] = useState<Boolean>(true)
-
+  const {isLoggedIn} = useAuth();
   return (
     <div>
-      {isLoggedIn() ? (
+      {isLoggedIn ? (
         <div className="mt-10 flex justify-center">
           <h1 className="text-[30px] text-blue-500">
             You're already logged in

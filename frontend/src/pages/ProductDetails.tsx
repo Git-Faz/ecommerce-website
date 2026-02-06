@@ -1,9 +1,9 @@
 import { useEffect, useState, type JSX } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import { getProductById } from "@/api/productApi";
 import { addToCart } from "@/api/cartApi";
 import { toast } from "sonner";
-import { isLoggedIn } from "@/lib/utils";
 import ProductInfo from "@/components/product/ProductInfo";
 import Loading from "@/components/ui/Loading";
 
@@ -20,6 +20,7 @@ interface Product {
 
 const ProductDetails = (): JSX.Element => {
     const { id } = useParams();
+    const {isLoggedIn} = useAuth();
     const [productDetails, setProductDetails] = useState<Product | null>(null);
     const [selectedQuantity, setSelectedQuantity] = useState<number>(1);
     const [loading,setLoading] = useState<Boolean>(true);
@@ -38,7 +39,7 @@ const ProductDetails = (): JSX.Element => {
     }, [productId]);
 
     function addCart(prodId: number, qty: number) {
-        if (!isLoggedIn()) {
+        if (!isLoggedIn) {
             toast.info(
                 <>
                     <Link to="/auth" className="underline">

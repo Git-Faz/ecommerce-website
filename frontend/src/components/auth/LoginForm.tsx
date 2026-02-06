@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { login } from "@/api/authApi";
 import { toast } from "sonner";
 import Loading from "../ui/Loading";
+import { useAppDispatch } from "@/store/hooks";
+import { loginSuccess } from "@/store/slices/authSlice";
 
 interface LoginReq {
     username: string;
@@ -21,6 +23,7 @@ export const LoginForm = (): JSX.Element => {
     const [formData, setFormData] = useState<LoginReq>(initialForm);
     const [errors, setErrors] = useState<FormErrors>({});
     const [loading, setLoading] = useState(false);
+    const dispatch = useAppDispatch()
 
     const navigate = useNavigate();
 
@@ -60,8 +63,7 @@ export const LoginForm = (): JSX.Element => {
         try {
             const { data } = await login(formData);
             toast.success("Logged in!")
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("username", data.username);
+            dispatch(loginSuccess(data))
             setFormData(initialForm);
             navigate("/");
         } catch (err: any) {

@@ -2,6 +2,7 @@ import type { JSX } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "@/api/authApi";
+import Loading from "../ui/Loading";
 
 interface RegisterReq {
     email: string;
@@ -69,6 +70,8 @@ export const RegisterForm = (): JSX.Element => {
             setLoading(false);
         }
     };
+
+    if (loading) return <Loading message="Loggin you in..."/>
 
     return (
         <div>
