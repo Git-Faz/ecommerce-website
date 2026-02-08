@@ -65,7 +65,7 @@ const Header = (): JSX.Element => {
 
                         <NavigationMenuItem>
                             
-                            <NavigationMenuTrigger className="flex items-center dark:hover:bg-background gap-2 z-100 text-lg">
+                            <NavigationMenuTrigger className="flex items-center dark:hover:bg-background bg-transparent gap-2 z-100 text-lg">
                                 <User2Icon size={20} />
                                 <span className="font-semibold">My Account</span>
                             </NavigationMenuTrigger>

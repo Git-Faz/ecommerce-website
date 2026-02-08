@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://ecommerce-website-e2ml.onrender.com/api",
+  baseURL: "http://localhost:8080/api" //"https://ecommerce-website-e2ml.onrender.com/api",
 });
 
 

@@ -22,12 +22,26 @@ export interface Product {
 
 const productPromise = getAllProducts();
 
-function ProductsList (): JSX.Element {
-    const {data: productData} = use(productPromise);
+function ProductsList(): JSX.Element {
+    const { data: productData } = use(productPromise);
 
-    const {isLoggedIn} = useAuth();
+    const { isLoggedIn } = useAuth();
 
     const navigate = useNavigate();
+
+    if (productData.length === 0) {
+        return (
+            <div className="text-center mt-10">
+                <p className="text-lg font-semibold">
+                    No products available
+                </p>
+                <p className="text-sm text-gray-500">
+                    Please check back later.
+                </p>
+            </div>
+        );
+    }
+
 
     function addCart(prodId: number, qty = 1) {
         if (!isLoggedIn) {
@@ -71,14 +85,14 @@ function ProductsList (): JSX.Element {
 
 const Home = (): JSX.Element => {
 
-        return (
-        <Suspense fallback={<Loading message="Loading Products..."/>} >
-            <ProductsList/>
+    return (
+        <Suspense fallback={<Loading message="Loading Products..." />} >
+            <ProductsList />
         </Suspense>
     )
 }
 
-    
+
 
 
 export default Home;
