@@ -5,23 +5,16 @@ interface UseAuthReturn {
     user: User | null;
     token: string | null;
     isLoggedIn: boolean;
+    isLoading: boolean
+    error: string | null
     logout: () => void;
 }
 
 export function useAuth(): UseAuthReturn {
-    const { user, token } = useAppSelector((state) => state.auth);
+    const { user, token, status, error } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
 
-    const isLoggedIn = (): boolean => {
-        if (!token) return false;
-
-        try {
-            const payload = JSON.parse(atob(token.split(".")[1]));
-            return payload.exp * 1000 > Date.now();
-        } catch {
-            return false;
-        }
-    };
+    const isLoggedIn = Boolean(token && user);
 
     const logout = () => {
         dispatch(logoutAction());
@@ -30,7 +23,9 @@ export function useAuth(): UseAuthReturn {
     return {
         user,
         token,
-        isLoggedIn: isLoggedIn(),
+        isLoggedIn: isLoggedIn,
+        isLoading: status === "loading",
+        error,
         logout,
     };
 }
