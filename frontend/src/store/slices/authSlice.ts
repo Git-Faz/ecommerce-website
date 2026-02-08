@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
-import { login as loginApi } from "@/api/authApi";
+import { login as loginApi, register as registerApi } from "@/api/authApi";
 
 export interface User {
     id: number;
     email: string;
+    username: string;
     role: string[];
 }
 
@@ -35,22 +36,37 @@ const loadInitialState = (): AuthState => {
         }
     }
 
-    return { user: null, token: null, status:'idle', error:null };
+    return { user: null, token: null, status: 'idle', error: null };
 };
 
 const initialState: AuthState = loadInitialState();
 
 export const login = createAsyncThunk(
     'auth/login', //type
-    async(credentials:{username: string, password: string}, {rejectWithValue}) => { //async func / payloadCreator
-        try{
-            const {data} = await loginApi(credentials)
+    async (credentials: { username: string, password: string }, { rejectWithValue }) => { //async func / payloadCreator
+        try {
+            const { data } = await loginApi(credentials)
             return data;
         } catch (err: any) {
-            if(err.response?.status === 401 || err.response?.status === 403){
+            if (err.response?.status === 401 || err.response?.status === 403) {
                 return rejectWithValue("Invalid username or password")
             }
             return rejectWithValue("Login failed")
+        }
+    }
+)
+
+export const register = createAsyncThunk(
+    'auth/register',
+    async (credentials: { email: string, username: string, password: string }, { rejectWithValue }) => {
+        try {
+            const { data } = await registerApi(credentials)
+            return data;
+        } catch (err: any) {
+            if (err.response?.status === 409) {
+                return rejectWithValue("Invalid credentials, user exists")
+            }
+            return rejectWithValue("Registration failed")
         }
     }
 )
@@ -75,6 +91,34 @@ const authSlice = createSlice({
                 state.error = null
             })
             .addCase(login.fulfilled, (state, action) => {
+                console.log("API Response:", action.payload);  // Add this
+
+                const { token, username, role, email } = action.payload;
+                const payload = JSON.parse(atob(token.split(".")[1]));
+
+                const user: User = {
+                    id: Number(payload.sub),
+                    email: email ?? payload.email,
+                    username,
+                    role: [role],
+                };
+
+                state.user = user;
+                state.token = token;
+                state.status = "idle"
+
+                localStorage.setItem("user", JSON.stringify(user))
+                localStorage.setItem("token", token)
+            })
+            .addCase(login.rejected, (state, action) => {
+                state.status = "error"
+                state.error = (action.payload as string) ?? "something went wrong";
+            })
+            .addCase(register.pending, (state) => {
+                state.status = "loading";
+                state.error = null;
+            })
+            .addCase(register.fulfilled, (state, action) => {
                 const user = action.payload.user;
                 const token = action.payload.token;
 
@@ -85,9 +129,9 @@ const authSlice = createSlice({
                 localStorage.setItem("user", JSON.stringify(user))
                 localStorage.setItem("token", token)
             })
-            .addCase(login.rejected, (state, action)=> {
-                state.status = "error"
-                state.error = (action.payload as string) ?? "something went wrong";
+            .addCase(register.rejected, (state, action) => {
+                state.status = "error";
+                state.error = (action.payload as string) ?? "Something went wrong"
             })
     }
 });

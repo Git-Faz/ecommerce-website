@@ -1,8 +1,11 @@
 import type { JSX } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { register } from "@/api/authApi";
+import { toast } from "sonner";
 import Loading from "../ui/Loading";
+import { useAppDispatch } from "@/store/hooks";
+import { useAuth } from "@/hooks/useAuth";
+import { register } from "@/store/slices/authSlice"
 
 interface RegisterReq {
     email: string;
@@ -21,9 +24,23 @@ export const RegisterForm = (): JSX.Element => {
 
     const [formData, setFormData] = useState<RegisterReq>(initialForm);
     const [errors, setErrors] = useState<FormErrors>({});
-    const [loading, setLoading] = useState(false);
-
+    const dispatch = useAppDispatch();
+    const { isLoading, isLoggedIn, error } = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error);
+        }
+    }, [error]);
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            toast.success("Account created!");
+            setFormData(initialForm);
+            navigate("/");
+        }
+    }, [isLoggedIn, navigate]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -40,7 +57,6 @@ export const RegisterForm = (): JSX.Element => {
         if (!data.email.includes("@")) {
             errs.email = "Enter proper email"
         }
-
         if (data.username.length < 3) {
             errs.username = "Enter a valid username";
         }
@@ -58,20 +74,11 @@ export const RegisterForm = (): JSX.Element => {
             return;
         }
         setErrors({});
-        setLoading(true);
+        dispatch(register(formData))
 
-        try {
-            const { data } = await register(formData);
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("username", data.username);
-            setFormData(initialForm);
-            navigate("/");
-        } finally {
-            setLoading(false);
-        }
     };
 
-    if (loading) return <Loading message="Loggin you in..."/>
+    if (isLoading) return <Loading message="Logging you in..." />
 
     return (
         <div>
@@ -132,10 +139,10 @@ export const RegisterForm = (): JSX.Element => {
                 </div>
                 <button
                     type="submit"
-                    disabled={loading}
+                    disabled={isLoading}
                     className="w-full rounded-md bg-blue-600 py-2 font-medium text-white transition hover:bg-blue-500 disabled:opacity-50"
                 >
-                    {loading ? "Signing in..." : "Sign in"}
+                    {isLoading ? "Signing in..." : "Sign in"}
                 </button>
             </form>
         </div>
