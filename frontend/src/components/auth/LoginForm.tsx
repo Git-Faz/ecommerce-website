@@ -1,11 +1,11 @@
 import type { JSX } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "@/api/authApi";
 import { toast } from "sonner";
 import Loading from "../ui/Loading";
 import { useAppDispatch } from "@/store/hooks";
-import { loginSuccess } from "@/store/slices/authSlice";
+import { useAuth } from "@/hooks/useAuth";
+import { login } from "@/store/slices/authSlice"
 
 interface LoginReq {
     username: string;
@@ -22,10 +22,24 @@ export const LoginForm = (): JSX.Element => {
 
     const [formData, setFormData] = useState<LoginReq>(initialForm);
     const [errors, setErrors] = useState<FormErrors>({});
-    const [loading, setLoading] = useState(false);
-    const dispatch = useAppDispatch()
 
+    const { isLoading, error, isLoggedIn } = useAuth();
+    const dispatch = useAppDispatch()
     const navigate = useNavigate();
+
+    useEffect(() => {
+      if (error) toast.error(error)
+    }, [error])
+
+    useEffect(() => {
+      if (isLoggedIn) {
+        toast.success("Logged in!");
+        setFormData(initialForm)
+        navigate("/")
+      }
+    }, [isLoggedIn, navigate])
+    
+    
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -51,6 +65,7 @@ export const LoginForm = (): JSX.Element => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const errs = validate(formData);
+
         if (Object.keys(errs).length) {
             setErrors(errs);
             toast.error(errors.password || errors.username)
@@ -58,26 +73,10 @@ export const LoginForm = (): JSX.Element => {
         }
         setErrors({});
 
-        setLoading(true);
-
-        try {
-            const { data } = await login(formData);
-            toast.success("Logged in!")
-            dispatch(loginSuccess(data))
-            setFormData(initialForm);
-            navigate("/");
-        } catch (err: any) {
-            if (err.response?.status === 401 || err.response?.status === 403) {
-                toast.error("Invalid username or password");
-            } else {
-                toast.error("Login failed. Try again.");
-            }
-        } finally {
-            setLoading(false);
-        }
+        dispatch(login(formData))
     };
 
-    if(loading){
+    if(isLoading){
         return <Loading message="Signing in..."/>
     }
 
@@ -122,10 +121,10 @@ export const LoginForm = (): JSX.Element => {
 
                 <button
                     type="submit"
-                    disabled={loading}
+                    disabled={isLoading}
                     className="w-full rounded-md bg-blue-600 py-2 font-medium text-white transition hover:bg-blue-500 disabled:opacity-50"
                 >
-                    {loading ? "Signing in..." : "Sign in"}
+                    {isLoading ? "Signing in..." : "Sign in"}
                 </button>
             </form>
         </div>
