@@ -60,8 +60,8 @@ function ProductsList(): JSX.Element {
     }
 
     return (
-        <div className="h-full space-x-3 flex-wrap ">
-            <div className="flex flex-row justify-center gap-x-4 m-5 flex-wrap">
+        <div className="h-full w-full space-x-3 flex-wrap ">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 m-5">
                 {productData.map(product => (
                     <ProductCard
                         key={product.id}

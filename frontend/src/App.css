@@ -19,6 +19,10 @@ body, main {
     @apply bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700;
 }
 
+#logo {
+  font-family: copperplate;
+}
+
 @layer base {
 
     * {
@@ -74,14 +78,14 @@ body, main {
 
     .authForm {
       @apply flex flex-col justify-evenly w-full min-w-md max-w-xl min-h-fit h-100 space-y-6 rounded-xl 
-      bg-blue-100 dark:bg-gray-800 
+      bg-blue-50 dark:bg-gray-800 
       p-8 
       shadow-lg dark:shadow-[0_10px_25px_rgba(0,0,0,0.3)]
       border border-transparent dark:border-gray-700;
     }
 
     .authFormLabel{
-      @apply block text-sm text-neutral-600 dark:text-neutral-300 mb-1
+      @apply block text-sm text-neutral-800 dark:text-neutral-300 mb-1
     }
 
     .authFormInput {
