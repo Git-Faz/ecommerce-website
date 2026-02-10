@@ -2,7 +2,8 @@ import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import Loading from "../ui/Loading";
+import { Button } from "../ui/button";
+import { Spinner } from "../ui/spinner";
 import { useAppDispatch } from "@/store/hooks";
 import { useAuth } from "@/hooks/useAuth";
 import { login } from "@/store/slices/authSlice"
@@ -25,21 +26,10 @@ export const LoginForm = (): JSX.Element => {
 
     const { isLoading, error, isLoggedIn } = useAuth();
     const dispatch = useAppDispatch()
-    const navigate = useNavigate();
 
     useEffect(() => {
       if (error) toast.error(error)
-    }, [error])
-
-    useEffect(() => {
-      if (isLoggedIn) {
-        toast.success("Logged in!");
-        setFormData(initialForm)
-        navigate("/")
-      }
-    }, [isLoggedIn, navigate])
-    
-    
+    }, [error])    
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -76,9 +66,9 @@ export const LoginForm = (): JSX.Element => {
         dispatch(login(formData))
     };
 
-    if(isLoading){
+/*     if(isLoading){
         return <Loading message="Signing in..."/>
-    }
+    } */
 
     return (
         <div>
@@ -119,13 +109,20 @@ export const LoginForm = (): JSX.Element => {
                     )}
                 </div>
 
-                <button
+                <Button
                     type="submit"
                     disabled={isLoading}
                     className="w-full rounded-md bg-blue-600 py-2 font-medium text-white transition hover:bg-blue-500 disabled:opacity-50"
                 >
-                    {isLoading ? "Signing in..." : "Sign in"}
-                </button>
+                    {isLoading ? (
+                        <>
+                            <Spinner className="mr-2 h-4 w-4" />
+                            Signing in...
+                        </>
+                    ) : (
+                        "Sign in"
+                    )}
+                </Button>
             </form>
         </div>
     )

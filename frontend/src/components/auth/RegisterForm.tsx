@@ -1,6 +1,5 @@
 import type { JSX } from "react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Loading from "../ui/Loading";
 import { useAppDispatch } from "@/store/hooks";
@@ -26,21 +25,12 @@ export const RegisterForm = (): JSX.Element => {
     const [errors, setErrors] = useState<FormErrors>({});
     const dispatch = useAppDispatch();
     const { isLoading, isLoggedIn, error } = useAuth();
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (error) {
             toast.error(error);
         }
     }, [error]);
-
-    useEffect(() => {
-        if (isLoggedIn) {
-            toast.success("Account created!");
-            setFormData(initialForm);
-            navigate("/");
-        }
-    }, [isLoggedIn, navigate]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

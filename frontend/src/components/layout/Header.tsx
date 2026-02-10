@@ -7,12 +7,16 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { MoonIcon, SunIcon, User2Icon } from "lucide-react";
+import { HomeIcon, MoonIcon, SunIcon, User2Icon } from "lucide-react";
 import { ShoppingCartIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { JSX } from "react";
 import { useTheme } from "@/hooks/useTheme";
 import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import SearchBar from "./SearchBar"
+
+
 interface NavItem {
     label: string
     href: string
@@ -20,7 +24,7 @@ interface NavItem {
 
 const Header = (): JSX.Element => {
 
-    const {theme, toggleTheme} = useTheme();
+    const { theme, toggleTheme } = useTheme();
 
     let navItems: NavItem[] = [
         {
@@ -43,31 +47,31 @@ const Header = (): JSX.Element => {
 
     return (
         <div className="m-0 w-full">
+
             <NavigationMenu viewport={false} className="mx-auto w-full"  >
                 <NavigationMenuList id="navmenu" className="shadow-blue-200 dark:shadow-blue-500 shadow-sm " >
-                    <div className="flex flex-row m-2">
-                        {
-                            navItems.map((item, index) => (
-
-                                <NavigationMenuItem key={index} className="z-100 hover:bg-background focus:bg-background rounded-md">
-                                    <NavigationMenuLink asChild className="text-xl font-semibold hover:font-semibold hover:bg-background rounded-md ">
-                                        <Link to={item.href}>{item.label}</Link>
-                                    </NavigationMenuLink>
-                                </NavigationMenuItem>
-                            ))
-                        }
+                    <div className="mx-5 min-w-fit w-50 p-4 font-black text-3xl">
+                        <h3 id="logo">FazCart</h3>
                     </div>
+                    <SearchBar></SearchBar>
                     <div className="w-fit flex flex-row align-middle items-center ">
-                        <Button variant={"outline"} onClick={toggleTheme}>{theme === "dark" ? <SunIcon /> : <MoonIcon/>}</Button>
                         <NavigationMenuItem className="flex items-center flex-col hover:bg-background rounded-md p-1 ">
-                                <Link to={"/cart"} className="flex flex-row gap-x-2 justify-center items-center text-lg px-2 font-semibold content-center"><ShoppingCartIcon size={20}/>Cart</Link>
+                            <Link to={"/"}
+                                className="flex flex-row gap-x-2 justify-center items-center text-lg px-2 font-semibold content-center">
+                                <HomeIcon size={20} />
+                            </Link>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem className="flex items-center flex-col hover:bg-background rounded-md p-1 ">
+                            <Link to={"/cart"}
+                                className="flex flex-row gap-x-2 justify-center items-center text-lg px-2 font-semibold content-center">
+                                <ShoppingCartIcon size={20} />
+                            </Link>
                         </NavigationMenuItem>
 
                         <NavigationMenuItem>
-                            
-                            <NavigationMenuTrigger className="flex items-center dark:hover:bg-background gap-2 z-100 text-lg">
+
+                            <NavigationMenuTrigger className="flex items-center dark:hover:bg-background bg-transparent gap-2 z-100 text-lg">
                                 <User2Icon size={20} />
-                                <span className="font-semibold">My Account</span>
                             </NavigationMenuTrigger>
 
                             <NavigationMenuContent className="p-3 flex flex-col gap-2">
@@ -81,8 +85,17 @@ const Header = (): JSX.Element => {
                                     ))
                                 }
                             </NavigationMenuContent>
-                            
                         </NavigationMenuItem>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant={'ghost'} className="text-sm" onClick={toggleTheme}>
+                                    {theme === "dark" ? <SunIcon></SunIcon> :<MoonIcon />}
+                                </Button>                            
+                            </TooltipTrigger>
+                            <TooltipContent className="m-2 p-2 z-70">
+                                {theme === "dark" ? <span>Light mode</span> :<span>Dark mode</span>}
+                            </TooltipContent>
+                        </Tooltip>
                     </div>
                 </NavigationMenuList>
             </NavigationMenu>

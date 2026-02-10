@@ -70,6 +70,7 @@ public class AuthService {
         return AuthResponse.builder()
                 .token(token)
                 .username(principal.getUsername())
+                .email(principal.getEmail())
                 .role(principal.getRole())
                 .build();
     }
