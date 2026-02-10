@@ -38,7 +38,6 @@ const loadInitialState = (): AuthState => {
 
     return { user: null, token: null, status: 'idle', error: null };
 };
-
 const initialState: AuthState = loadInitialState();
 
 export const login = createAsyncThunk(
@@ -105,7 +104,8 @@ const authSlice = createSlice({
 
                 state.user = user;
                 state.token = token;
-                state.status = "idle"
+                state.status = "idle";
+                state.error = null;
 
                 localStorage.setItem("user", JSON.stringify(user))
                 localStorage.setItem("token", token)
