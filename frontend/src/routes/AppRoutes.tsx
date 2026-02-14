@@ -12,6 +12,7 @@ const AppRoutes = (): JSX.Element => {
     return(
         <Routes>
             <Route path = "/" element={<Home/>}></Route>
+            <Route path="/products" element={<Home />} />
             <Route path = "/cart" element={<Cart/>}></Route>
             <Route path = "/products/:id" element={<ProductDetails/>}></Route>
             <Route path ="/checkout" element={<Checkout/>}></Route>
