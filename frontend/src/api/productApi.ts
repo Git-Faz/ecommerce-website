@@ -15,5 +15,10 @@ export const getAllProducts = () => {
 }
 
 export const getProductById = (id : number | string) =>{
-    return api.get<Product>(`products/${id}`)
+    return api.get<Product>(`/products/${id}`)
 }
+
+export const getProductByName = (name: string) =>
+  api.get<Product[]>("/products/search", {
+    params: { name },
+  });

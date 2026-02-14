@@ -1,14 +1,13 @@
-import { type JSX, use, Suspense, } from "react";
-import { Link } from "react-router-dom";
-import { getAllProducts } from "@/api/productApi";
+import { type JSX, useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { getAllProducts, getProductByName } from "@/api/productApi";
 import ProductCard from "@/components/product/ProductCard";
-import { useNavigate } from "react-router-dom";
-import placeholder from "../assets/placeholder.jpg"
+import placeholder from "../assets/placeholder.jpg";
 import { addToCart } from "@/api/cartApi";
 import { toast } from "sonner";
 import Loading from "@/components/ui/Loading";
 import { useAuth } from "@/hooks/useAuth";
-
+import Body from "@/components/layout/Body";
 
 export interface Product {
     id: number;
@@ -20,28 +19,81 @@ export interface Product {
     imageUrl: string;
 }
 
-const productPromise = getAllProducts();
-
 function ProductsList(): JSX.Element {
-    const { data: productData } = use(productPromise);
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get("name")?.trim().toLowerCase() ?? "";
+    console.log("Search query:", query);
+
+    const [products, setProducts] = useState<Product[]>([]);
+    const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
 
     const { isLoggedIn } = useAuth();
-
     const navigate = useNavigate();
 
-    if (productData.length === 0) {
+    useEffect(() => {
+        let cancelled = false;
+
+        async function fetchProducts() {
+
+            if (query && query.length < 5) {
+                setProducts([]);
+                setStatus("idle");
+                return;
+            }
+
+            setStatus("loading");
+
+            try {
+                const response = query.length >= 5
+                    ? await getProductByName(query)
+                    : await getAllProducts();
+
+                if (!cancelled) {
+                    setProducts(response.data);
+                    setStatus("idle");
+                }
+            } catch (error) {
+                if (!cancelled) {
+                    setStatus("error");
+                }
+            }
+        }
+
+        fetchProducts();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [query]);
+
+    if (status === "loading") {
+        return <Loading message="Loading Products..." />;
+    }
+
+    if (status === "error") {
         return (
             <div className="text-center mt-10">
                 <p className="text-lg font-semibold">
-                    No products available
+                    Failed to load products.
                 </p>
                 <p className="text-sm text-gray-500">
-                    Please check back later.
+                    Please try again.
                 </p>
             </div>
         );
     }
 
+    if (products.length === 0) {
+        return (
+            <div className="text-center mt-10">
+                <p className="text-lg font-semibold">
+                    {query
+                        ? `No results found for "${query}"`
+                        : "No products available"}
+                </p>
+            </div>
+        );
+    }
 
     function addCart(prodId: number, qty = 1) {
         if (!isLoggedIn) {
@@ -52,47 +104,34 @@ function ProductsList(): JSX.Element {
                     </Link>{" "}
                     to add items to cart
                 </>
-            )
+            );
         } else {
-            addToCart(prodId, qty)
-            toast.success("Item added to cart!")
+            addToCart(prodId, qty);
+            toast.success("Item added to cart!");
         }
     }
 
     return (
-        <div className="h-full w-full space-x-3 flex-wrap ">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 m-5">
-                {productData.map(product => (
-                    <ProductCard
-                        key={product.id}
-                        img={{
-                            link: product.imageUrl || placeholder,
-                            alt: "product image",
-                        }}
-                        name={product.name}
-                        price={product.price}
-                        onClick={() => navigate(`/products/${product.id}`)}
-                        onBtnClick={() => addCart(product.id)}
-                    />
-                )
-                )
-                }
+        <Body>
+            <div className="flex flex-col justify-center w-full h-full py-20">
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-y-4 gap-x-8 flex-1">
+                    {products.map((product) => (
+                        <ProductCard
+                            key={product.id}
+                            img={{
+                                link: product.imageUrl || placeholder,
+                                alt: "product image",
+                            }}
+                            name={product.name}
+                            price={product.price}
+                            onClick={() => navigate(`/products/${product.id}`)}
+                            onBtnClick={() => addCart(product.id)}
+                        />
+                    ))}
+                </div>
             </div>
-
-        </div>
-    )
+        </Body>
+    );
 }
 
-const Home = (): JSX.Element => {
-
-    return (
-        <Suspense fallback={<Loading message="Loading Products..." />} >
-            <ProductsList />
-        </Suspense>
-    )
-}
-
-
-
-
-export default Home;
+export default ProductsList;

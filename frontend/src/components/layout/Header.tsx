@@ -12,8 +12,9 @@ import { ShoppingCartIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { JSX } from "react";
 import { useTheme } from "@/hooks/useTheme";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import SearchBar from "./SearchBar"
 
 
@@ -25,13 +26,7 @@ interface NavItem {
 const Header = (): JSX.Element => {
 
     const { theme, toggleTheme } = useTheme();
-
-    let navItems: NavItem[] = [
-        {
-            label: "Home",
-            href: "/"
-        },
-    ];
+    const navigate = useNavigate();
 
     const navLinks: NavItem[] = [
         {
@@ -45,15 +40,25 @@ const Header = (): JSX.Element => {
         },
     ]
 
+    const handleSearch = (query: string) => {
+    
+        if (query.length > 5){
+        navigate(`/products?name=${encodeURIComponent(query)}`)
+        } else {
+
+        }
+    }
+
     return (
         <div className="m-0 w-full">
-
             <NavigationMenu viewport={false} className="mx-auto w-full"  >
-                <NavigationMenuList id="navmenu" className="shadow-blue-200 dark:shadow-blue-500 shadow-sm " >
+                <NavigationMenuList id="navmenu" className="shadow-blue-200 dark:shadow-blue-500 shadow-sm p-5" >
                     <div className="mx-5 min-w-fit w-50 p-4 font-black text-3xl">
                         <h3 id="logo">FazCart</h3>
                     </div>
-                    <SearchBar></SearchBar>
+
+                    <SearchBar onSearch={handleSearch} />
+                    
                     <div className="w-fit flex flex-row align-middle items-center ">
                         <NavigationMenuItem className="flex items-center flex-col hover:bg-background rounded-md p-1 ">
                             <Link to={"/"}
