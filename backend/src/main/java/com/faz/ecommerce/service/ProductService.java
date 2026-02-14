@@ -28,11 +28,9 @@ public class ProductService {
     }
 
     public List<Product> getProductsByName(String name){
-        List<Product> products = productRepo.findByNameContainingIgnoreCase(name);
-        if(products.isEmpty()){
-            throw new ResourceNotFoundException("Product doesn't exist");
-        }
-        return products;
+        return productRepo.findByNameContainingIgnoreCase(name);
+   
+         
     }
 
     public Product addSingleProduct (ProductRequest request ){
