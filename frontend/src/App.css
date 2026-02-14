@@ -15,7 +15,7 @@ body, main {
     z-index: 100;
     position: sticky;
     min-height: fit-content;
-    height: 64px;
+    height: 75px;
     @apply bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700;
 }
 
