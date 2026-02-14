@@ -7,12 +7,12 @@ interface BodyProps {
   classname?: string
 }
 
-export default function Body({ children, classname = "mx-auto max-w-8xl px-4" }: BodyProps,): JSX.Element {
+export default function Body({ children, classname = "mx-auto max-w-7xl w-full px-4" }: BodyProps,): JSX.Element {
 
   const {theme} = useTheme();
 
   return (
-    <main className={`flex-1 w-full ${themeClasses[theme]} `}>
+    <main className={`flex-1 w-full overflow-x-hidden ${themeClasses[theme]} `}>
       <div className = {classname}>
         {children}
       </div>

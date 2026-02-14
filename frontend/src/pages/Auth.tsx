@@ -4,6 +4,7 @@ import { RegisterForm } from "@/components/auth/RegisterForm";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import Body from "@/components/layout/Body";
 
 type AuthMode = "login" | "register";
 
@@ -21,6 +22,7 @@ const Auth = () => {
 
 
   return (
+    <Body>
     <div className="mt-10 min-h-fit flex items-center justify-center">
       <div className="space-y-6">
         <div className="flex gap-4 justify-center">
@@ -49,6 +51,7 @@ const Auth = () => {
         {mode === "register" && <RegisterForm />}
       </div>
     </div>
+    </Body>
   );
 };
 

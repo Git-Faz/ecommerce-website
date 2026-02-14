@@ -27,7 +27,7 @@ interface CartItem {
 const CartItemCard = ({name, price, quantity, imageUrl, total, onDelete, classname, serialNo }: CartItem): JSX.Element => {
     return (
         <Item className={cn(
-        "m-5 w-full min-w-0 h-fit align-middle justify-center dark:bg-gray-900",
+        "m-5 w-full min-w-0 h-fit align-middle justify-center dark:bg-gray-900 bg-amber-50",
         classname
       )} >{serialNo}
             <ItemMedia variant="image" className="flex size-24 sm:size-10 self-center" id="itemMedia">

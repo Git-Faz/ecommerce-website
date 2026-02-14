@@ -6,6 +6,7 @@ import { addToCart } from "@/api/cartApi";
 import { toast } from "sonner";
 import ProductInfo from "@/components/product/ProductInfo";
 import Loading from "@/components/ui/Loading";
+import Body from "@/components/layout/Body";
 
 
 interface Product {
@@ -62,6 +63,7 @@ const ProductDetails = (): JSX.Element => {
     }
 
     return (
+        <Body classname="mx-10">
         <div className="flex p-10">
             <ProductInfo
                 name={productDetails.name}
@@ -77,6 +79,7 @@ const ProductDetails = (): JSX.Element => {
                 }
             />
         </div>
+        </Body>
     );
 };
 

@@ -67,9 +67,9 @@ const ProductInfo = ({
 }: ProductInfoProps): JSX.Element => {
 
     return (
-        <Card className="flex flex-row w-full align-middle justify-start content-start p-8 ">
+        <Card className="flex flex-row w-full align-top justify-start content-start p-8 ">
             <div className="w-xl flex align-top justify-start content-start">
-                <img src={imageUrl} alt="product image" className="object-contain min-w-lg w-xl max-w-xl " />
+                <img src={imageUrl} alt="product image" className="object-contain min-w-lg w-xl max-w-xl min-h-fit h-fit max-h-175 " />
             </div>
 
             <CardContent className="w-1/2 flex flex-col align-middle justify-start content-center space-y-8 h-full  ">

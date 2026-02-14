@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import OrderCard from "@/components/user/OrderCard";
 import Loading from "@/components/ui/Loading";
+import Body from "@/components/layout/Body";
 
 export interface OrderItem {
     id: number
@@ -50,20 +51,22 @@ const Order = (): JSX.Element => {
     if (orders.length === 0) return <h3 className="text-xl font-bold">No orders</h3>;
 
     return (
-        <div className="m-5 p-3">
-            <h1 id="title">Your Orders</h1>
-            <div className="flex flex-col">
-                {orders.map((order: Order, index: number) => (
-                    <OrderCard
-                        key={index}
-                        id={order.id}
-                        items={order.items}
-                        totalAmount={order.totalAmount}
-                        status={order.status}
-                    />
-                ))}
+        <Body>
+            <div className="m-5 p-3">
+                <h1 id="title">Your Orders</h1>
+                <div className="flex flex-col">
+                    {orders.map((order: Order, index: number) => (
+                        <OrderCard
+                            key={index}
+                            id={order.id}
+                            items={order.items}
+                            totalAmount={order.totalAmount}
+                            status={order.status}
+                        />
+                    ))}
+                </div>
             </div>
-        </div>
+        </Body>
     );
 }
 

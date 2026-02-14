@@ -7,6 +7,7 @@ import CartItemCard from "@/components/cart/CartItemCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Loading from "@/components/ui/Loading";
+import Body from "@/components/layout/Body";
 
 interface OrderItem {
     productId: number;
@@ -60,6 +61,7 @@ const Checkout = (): JSX.Element => {
     const deliveryFee = orderItems.length > 0 ? 49 : 0;
 
     return (
+        <Body>
         <div className="m-5 p-5">
             <h1 id="title" className="mb-4">Checkout</h1>
 
@@ -133,6 +135,7 @@ const Checkout = (): JSX.Element => {
                 </Card>
             </div>
         </div>
+    </Body>
     )
 }
 

@@ -5,6 +5,7 @@ import CartItemCard from "@/components/cart/CartItemCard";
 import { Button } from "@/components/ui/button";
 import Loading from "@/components/ui/Loading";
 import { useAuth } from "@/hooks/useAuth";
+import Body from "@/components/layout/Body";
 
 interface CartItem {
     id: number;
@@ -20,11 +21,11 @@ const Cart = (): JSX.Element => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const navigate = useNavigate();
-    const {isLoggedIn} = useAuth();
+    const { isLoggedIn } = useAuth();
 
     useEffect(() => {
         if (!isLoggedIn) return;
-        
+
         getCart()
             .then(res => {
                 console.log(res.data)
@@ -55,8 +56,8 @@ const Cart = (): JSX.Element => {
         navigate("/checkout");
     }
 
-    if(loading) return <Loading/>
-    
+    if (loading) return <Loading />
+
     if (cartItems.length === 0) {
         return (
             <div>
@@ -75,35 +76,37 @@ const Cart = (): JSX.Element => {
         }
     }
 
-    
+
 
     return (
-        <div className="m-5 p-5 min-w-fit w-3xl max-w-3xl">
-            <h1 id="title" >
-                My Cart
-            </h1>
-            <div>
-                {
-                    cartItems.map((item: any) => (
-                        <CartItemCard
-                            key={item.id}
-                            name={item.productName}
-                            imageUrl={item.productImageUrl}
-                            price={item.productPrice}
-                            quantity={item.quantity}
-                            total={item.totalPrice}
-                            onDelete={() => handleDelete(item.id)}
-                            classname="min-w-fit w-3xl shadow-blue-200 shadow-md  dark:shadow-none "
-                        />
-                    ))
-                }
+        <Body classname="mx-20">
+            <div className="m-5 p-5 min-w-fit w-full max-w-3xl">
+                <h1 id="title" >
+                    My Cart
+                </h1>
+                <div>
+                    {
+                        cartItems.map((item: any) => (
+                            <CartItemCard
+                                key={item.id}
+                                name={item.productName}
+                                imageUrl={item.productImageUrl}
+                                price={item.productPrice}
+                                quantity={item.quantity}
+                                total={item.totalPrice}
+                                onDelete={() => handleDelete(item.id)}
+                                classname="min-w-fit w-3xl shadow-blue-300 shadow-md  dark:shadow-none "
+                            />
+                        ))
+                    }
+                </div>
+                <div className="flex justify-end gap-x-5 mx-auto min-w-fit w-3xl max-w-3xl">
+                    <Button variant={"destructive"} size={"sm"} onClick={handleClearCart} className="bg-red-300 text-black hover:bg-red-500" >Clear</Button>
+                    <Button size={"sm"} onClick={handleCheckout} className="bg-green-300 text-black hover:bg-green-400"
+                    >Proceed to buy</Button>
+                </div>
             </div>
-            <div className="flex justify-end gap-x-5 mx-auto min-w-fit w-3xl max-w-3xl">
-                <Button variant={"destructive"} size={"sm"} onClick={handleClearCart} className="bg-red-300 text-black hover:bg-red-500" >Clear</Button>
-                <Button size={"sm"} onClick={handleCheckout} className="bg-green-300 text-black hover:bg-green-400"
-                >Proceed to buy</Button>
-            </div>
-        </div>
+        </Body>
     )
 }
 
