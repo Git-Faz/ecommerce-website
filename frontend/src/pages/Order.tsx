@@ -1,6 +1,6 @@
 import { getAllOrders } from "@/api/orderApi";
 import type { JSX } from "react";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import OrderCard from "@/components/user/OrderCard";
