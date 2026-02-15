@@ -8,6 +8,8 @@ import {
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { HomeIcon, MoonIcon, SunIcon, User2Icon } from "lucide-react";
+import lightLogo from "../../assets/FazCartLight.svg";
+import darkLogo from "../../assets/FazCartDark.svg"
 import { ShoppingCartIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { JSX } from "react";
@@ -41,22 +43,22 @@ const Header = (): JSX.Element => {
     ]
 
     const handleSearch = (query: string) => {
-    
-        if (query.length >= 5){
-        navigate(`/products?name=${encodeURIComponent(query)}`)
-        } 
+
+        if (query.length >= 5) {
+            navigate(`/products?name=${encodeURIComponent(query)}`)
+        }
     }
 
     return (
         <div className="m-0 w-full">
             <NavigationMenu viewport={false} className="mx-auto w-full"  >
                 <NavigationMenuList id="navmenu" className="shadow-blue-200 dark:shadow-blue-500 shadow-sm p-5" >
-                    <div className="mx-5 min-w-fit w-50 p-4 font-black text-3xl">
-                        <h3 id="logo">FazCart</h3>
+                    <div className="flex flex-row justify-start content-center m-0 min-w-fit w-50 p-4 text-black font-light text-xl">
+                        <img src={theme === "dark" ? lightLogo : darkLogo} alt="logo" className="size-15" />                        <span className="h-fit my-auto dark:text-white" id="logo">Faz<br></br>Cart</span>
                     </div>
 
                     <SearchBar onSearch={handleSearch} />
-                    
+
                     <div className="w-fit flex flex-row align-middle items-center ">
                         <NavigationMenuItem className="flex items-center flex-col hover:bg-background rounded-md p-1 ">
                             <Link to={"/"}
@@ -92,11 +94,11 @@ const Header = (): JSX.Element => {
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button variant={'ghost'} className="text-sm" onClick={toggleTheme}>
-                                    {theme === "dark" ? <SunIcon></SunIcon> :<MoonIcon />}
-                                </Button>                            
+                                    {theme === "dark" ? <SunIcon></SunIcon> : <MoonIcon />}
+                                </Button>
                             </TooltipTrigger>
                             <TooltipContent className="m-2 p-2 z-70">
-                                {theme === "dark" ? <span>Light mode</span> :<span>Dark mode</span>}
+                                {theme === "dark" ? <span>Light mode</span> : <span>Dark mode</span>}
                             </TooltipContent>
                         </Tooltip>
                     </div>
