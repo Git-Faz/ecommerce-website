@@ -42,11 +42,9 @@ const Header = (): JSX.Element => {
 
     const handleSearch = (query: string) => {
     
-        if (query.length > 5){
+        if (query.length >= 5){
         navigate(`/products?name=${encodeURIComponent(query)}`)
-        } else {
-
-        }
+        } 
     }
 
     return (

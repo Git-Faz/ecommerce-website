@@ -85,7 +85,7 @@ function ProductsList(): JSX.Element {
 
     if (products.length === 0) {
         return (
-            <div className="text-center mt-10">
+            <div className="text-center mt-10 min-h-fit h-125 max-h-125">
                 <p className="text-lg font-semibold">
                     {query
                         ? `No results found for "${query}"`
@@ -112,9 +112,9 @@ function ProductsList(): JSX.Element {
     }
 
     return (
-        <Body>
-            <div className="flex flex-col justify-center w-full h-full py-20">
-                <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-y-4 gap-x-8 flex-1">
+        <Body classname="w-full h-full py-20 px-10">
+            {/* <div className="flex flex-col justify-center "> */}
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-y-4 gap-x-4 flex-1">
                     {products.map((product) => (
                         <ProductCard
                             key={product.id}
@@ -129,7 +129,7 @@ function ProductsList(): JSX.Element {
                         />
                     ))}
                 </div>
-            </div>
+            {/* </div> */}
         </Body>
     );
 }
