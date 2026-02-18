@@ -8,6 +8,8 @@ import com.faz.ecommerce.repository.ProductRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -19,12 +21,8 @@ public class ProductService {
 
     private final ProductRepo productRepo;
 
-    public List<Product> getAllProducts(){
-       var products = productRepo.findAll();
-        if(products.isEmpty()){
-            throw new RuntimeException("There are no products!");
-        }
-        return products;
+    public Page<Product> getAllProducts(Pageable pageable){
+      return productRepo.findAll(pageable);
     }
 
     public List<Product> getProductsByName(String name){
