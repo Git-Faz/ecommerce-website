@@ -1,12 +1,12 @@
 import { useEffect, useState, type JSX } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
-import { getProductById } from "@/api/productApi";
-import { addToCart } from "@/api/cartApi";
+import { useAuth } from "@/features/auth/useAuth";
+import { getProductById } from "@/features/products/api";
+import { addToCart } from "@/features/cart/api";
 import { toast } from "sonner";
-import ProductInfo from "@/components/product/ProductInfo";
-import Loading from "@/components/ui/Loading";
-import Body from "@/components/layout/Body";
+import ProductInfo from "@/features/products/components/ProductInfo";
+import Loading from "@/shared/components/ui/Loading";
+import Body from "@/shared/components/layout/Body";
 
 
 interface Product {

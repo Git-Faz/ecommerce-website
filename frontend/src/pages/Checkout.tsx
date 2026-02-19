@@ -1,13 +1,13 @@
-import { getCart } from "@/api/cartApi";
-import { createOrder } from "@/api/orderApi";
+import { getCart } from "@/features/cart/api";
+import { createOrder } from "@/features/orders/api";
 import { useEffect, useMemo, useState, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
 import { type AxiosResponse, AxiosError } from "axios";
-import CartItemCard from "@/components/cart/CartItemCard";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Loading from "@/components/ui/Loading";
-import Body from "@/components/layout/Body";
+import CartItemCard from "@/features/cart/components/CartItemCard";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/components/ui/card";
+import { Button } from "@/shared/components/ui/button";
+import Loading from "@/shared/components/ui/Loading";
+import Body from "@/shared/components/layout/Body";
 
 interface OrderItem {
     productId: number;

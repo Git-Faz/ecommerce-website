@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { LoginForm } from "@/components/auth/LoginForm";
-import { RegisterForm } from "@/components/auth/RegisterForm";
-import { useAuth } from "@/hooks/useAuth";
+import { LoginForm } from "@/features/auth/components/LoginForm";
+import { RegisterForm } from "@/features/auth/components/RegisterForm";
+import { useAuth } from "@/features/auth/useAuth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import Body from "@/components/layout/Body";
+import Body from "@/shared/components/layout/Body";
 
 type AuthMode = "login" | "register";
 

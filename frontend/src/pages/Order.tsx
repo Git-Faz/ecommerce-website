@@ -1,11 +1,11 @@
-import { getAllOrders } from "@/api/orderApi";
+import { getAllOrders } from "@/features/orders/api";
 import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
-import OrderCard from "@/components/user/OrderCard";
-import Loading from "@/components/ui/Loading";
-import Body from "@/components/layout/Body";
+import { useAuth } from "@/features/auth/useAuth";
+import OrderCard from "@/features/orders/components/OrderCard";
+import Loading from "@/shared/components/ui/Loading";
+import Body from "@/shared/components/layout/Body";
 
 export interface OrderItem {
     id: number
@@ -36,11 +36,11 @@ const Order = (): JSX.Element => {
         }
 
         getAllOrders()
-            .then(res => {
+            .then((res: any)  => {
                 setOrders(res.data.data);
                 setLoading(false);
             })
-            .catch(err => {
+            .catch((err: unknown) => {
                 console.error("Failed to fetch orders", err);
                 setLoading(false);
             });

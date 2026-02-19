@@ -1,13 +1,13 @@
 import { type JSX, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getAllProducts, getProductByName } from "@/api/productApi";
-import ProductCard from "@/components/product/ProductCard";
+import { getAllProducts, getProductByName } from "@/features/products/api";
+import ProductCard from "@/features/products/components/ProductCard";
 import placeholder from "../assets/placeholder.jpg";
-import { addToCart } from "@/api/cartApi";
+import { addToCart } from "@/features/cart/api";
 import { toast } from "sonner";
-import Loading from "@/components/ui/Loading";
-import { useAuth } from "@/hooks/useAuth";
-import Body from "@/components/layout/Body";
+import Loading from "@/shared/components/ui/Loading";
+import { useAuth } from "@/features/auth/useAuth";
+import Body from "@/shared/components/layout/Body";
 
 export interface Product {
     id: number;

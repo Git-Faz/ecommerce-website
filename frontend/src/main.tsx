@@ -1,10 +1,10 @@
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider } from './context/ThemeProvider.tsx';
+import { ThemeProvider } from './app/theme/ThemeProvider.tsx';
 import { Provider } from 'react-redux';
-import App from './App.tsx'
-import { store } from './store/store.ts';
-import { TooltipProvider } from "@/components/ui/tooltip"
+import App from './app/App.tsx'
+import { store } from './app/store.ts';
+import { TooltipProvider } from "@/shared/components/ui/tooltip.tsx"
 
 createRoot(document.getElementById('root')!).render(
     <ThemeProvider>

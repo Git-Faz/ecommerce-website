@@ -1,14 +1,14 @@
 import type { JSX } from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks/useAuth";
-import { useAppDispatch } from "@/store/hooks";
-import UserInfoCard from "@/components/user/UserInfoCard";
-import { type UserInfo } from "@/components/user/UserInfoCard";
-import { loadProfile } from "@/api/userApi";
+import { useAuth } from "@/features/auth/useAuth";
+import { useAppDispatch } from "@/app/hooks";
+import UserInfoCard from "@/features/user/components/UserInfoCard";
+import { type UserInfo } from "@/features/user/components/UserInfoCard";
+import { loadProfile } from "@/features/user/api";
 import { toast } from "sonner";
-import Loading from "@/components/ui/Loading";
-import { logout } from "@/store/slices/authSlice";
+import Loading from "@/shared/components/ui/Loading";
+import { logout } from "@/features/auth/authSlice";
 
 const UserProfile = (): JSX.Element => {
 

@@ -1,11 +1,11 @@
 import { useState, useEffect, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCart, clearCart, deleteCartItem } from "@/api/cartApi";
-import CartItemCard from "@/components/cart/CartItemCard";
-import { Button } from "@/components/ui/button";
-import Loading from "@/components/ui/Loading";
-import { useAuth } from "@/hooks/useAuth";
-import Body from "@/components/layout/Body";
+import { getCart, clearCart, deleteCartItem } from "@/features/cart/api";
+import CartItemCard from "@/features/cart/components/CartItemCard";
+import { Button } from "@/shared/components/ui/button";
+import Loading from "@/shared/components/ui/Loading";
+import { useAuth } from "@/features/auth/useAuth";
+import Body from "@/shared/components/layout/Body";
 
 interface CartItem {
     id: number;
@@ -27,12 +27,12 @@ const Cart = (): JSX.Element => {
         if (!isLoggedIn) return;
 
         getCart()
-            .then(res => {
-                console.log(res.data)
-                setCartItems(res.data)
-                setLoading(false)
+            .then((res: { data: CartItem[] }) => {
+            console.log(res.data)
+            setCartItems(res.data)
+            setLoading(false)
             })
-            .catch(err => `Unexpected error: ${err}`)
+            .catch((err: unknown) => `Unexpected error: ${err}`)
     }, [isLoggedIn])
 
     if (!isLoggedIn) {
