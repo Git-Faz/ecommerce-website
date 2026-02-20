@@ -6,7 +6,7 @@ import {
   ItemTitle,
 } from "@/shared/components/ui/item";
 import type { JSX } from "react";
-import { type Order } from "@/pages/Order";
+import { type Order } from "../types";
 
 
 const OrderCard = ({ id, items, totalAmount, status }: Order): JSX.Element => {

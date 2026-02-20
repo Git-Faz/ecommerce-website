@@ -1,14 +1,9 @@
 import type { JSX } from "react";
+import type { UserInfo } from "../types";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter, CardAction } from "@/shared/components/ui/card";
 import { Button } from "@/shared/components/ui/button"
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
-export interface UserInfo {
-    name: string
-    email: string
-    onLogout?: () =>void
-}
 
 const UserInfoCard = ({name, email, onLogout}: UserInfo): JSX.Element => {
 

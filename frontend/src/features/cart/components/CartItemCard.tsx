@@ -7,21 +7,9 @@ import {
     ItemTitle,
 } from "@/shared/components/ui/item"
 import type { JSX } from "react"
+import type { CartItem } from "../types";
 import { TrashIcon } from "lucide-react";
 import { cn } from "@/shared/utils/utils";
-
-interface CartItem {
-    serialNo?:number;
-    name: string;
-    price: number;
-    quantity: number;
-    imageUrl: string;
-    total: number;
-    onDelete?: () => void;
-    classname?: string
-}
-
-
 
 
 const CartItemCard = ({name, price, quantity, imageUrl, total, onDelete, classname, serialNo }: CartItem): JSX.Element => {

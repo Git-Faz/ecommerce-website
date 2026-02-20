@@ -6,18 +6,9 @@ import {
     CardTitle,
 } from "@/shared/components/ui/card"
 import type { JSX } from "react";
+import type { ProductCard } from "../types";
 import { ShoppingCartIcon as Cart } from "lucide-react";
 
-interface ProductCard {
-    img: {
-        link: string,
-        alt: string
-    },
-    name: string,
-    price: number;
-    onClick: () => void,
-    onBtnClick: () => void
-}
 
 const ProductCard = ({ img, name, price, onClick, onBtnClick }: ProductCard): JSX.Element => {
     return (

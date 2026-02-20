@@ -1,6 +1,6 @@
 import type { JSX } from "react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import type { LoginReq } from "../types";
 import { toast } from "sonner";
 import { Button } from "../../../shared/components/ui/button";
 import { Spinner } from "../../../shared/components/ui/spinner";
@@ -8,10 +8,6 @@ import { useAppDispatch } from "@/app/hooks";
 import { useAuth } from "@/features/auth/useAuth";
 import { login } from "@/features/auth/authSlice"
 
-interface LoginReq {
-    username: string;
-    password: string;
-}
 type FormErrors = Partial<Record<keyof LoginReq, string>>;
 
 const initialForm: LoginReq = {

@@ -1,4 +1,5 @@
 import { useState, type JSX } from "react";
+import type { ProductInfoProps, QuantityCounterProps } from "../types";
 import {
     Card,
     CardAction,
@@ -17,23 +18,6 @@ import {
 } from "@/shared/components/ui/select"
 import { Button } from "../../../shared/components/ui/button";
 
-export interface ProductInfoProps {
-    name: string;
-    description: string;
-    categories: string[];
-    price: number;
-    stock: number;
-    quantity: number;
-    imageUrl: string;
-    onQuantityChange: (q: number) => void;
-    onButtonClick: () => void;
-}
-
-interface QuantityCounterProps {
-    max: number;
-    value: number;
-    onChange: (qty: number) => void;
-}
 
 const QuantityCounter = ({ max, value, onChange, }: QuantityCounterProps): JSX.Element => (
     <Select
