@@ -8,8 +8,8 @@ import {
     NavigationMenuTrigger,
 } from "@/shared/components/ui/navigation-menu";
 import { HomeIcon, MoonIcon, SunIcon, User2Icon } from "lucide-react";
-import lightLogo from "../../assets/FazCartLight.svg";
-import darkLogo from "../../assets/FazCartDark.svg"
+import lightLogo from "@/assets/FazCartLight.svg";
+import darkLogo from "@/assets/FazCartDark.svg"
 import { ShoppingCartIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { JSX } from "react";
