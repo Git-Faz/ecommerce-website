@@ -1,6 +1,7 @@
 import api from "@/app/axios";
+import type { CartItemResponse } from "./types";
 
-export const getCart = () => api.get("/cart");
+export const getCart = () => api.get<CartItemResponse[]>("/cart");
 
 export const addToCart = (productId: number, quantity: number) => 
     api.post("/cart", { productId, quantity });

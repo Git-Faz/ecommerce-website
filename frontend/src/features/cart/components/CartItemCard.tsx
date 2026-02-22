@@ -12,7 +12,7 @@ import { TrashIcon } from "lucide-react";
 import { cn } from "@/shared/utils/utils";
 
 
-const CartItemCard = ({name, price, quantity, imageUrl, total, onDelete, classname, serialNo }: CartItem): JSX.Element => {
+const CartItemCard = ({name, price, quantity, imageUrl, total, onDelete, classname, serialNo, disabled }: CartItem): JSX.Element => {
     return (
         <Item className={cn(
         "m-5 w-full min-w-0 h-fit align-middle justify-center dark:bg-gray-900 bg-amber-50",
@@ -31,7 +31,7 @@ const CartItemCard = ({name, price, quantity, imageUrl, total, onDelete, classna
             </ItemContent>
             {onDelete && (
                 <ItemActions>
-                    <button onClick={onDelete}>
+                    <button onClick={onDelete} disabled={disabled}>
                         <TrashIcon/>
                     </button>
                 </ItemActions>

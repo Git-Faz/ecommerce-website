@@ -43,11 +43,15 @@ const Header = (): JSX.Element => {
     ]
 
     const handleSearch = (query: string) => {
+    const trimmed = query.trim();
 
-        if (query.length >= 5) {
-            navigate(`/products?name=${encodeURIComponent(query)}`)
-        }
+    if (!trimmed) {
+        navigate("/");
+        return;
     }
+
+    navigate(`/products?name=${encodeURIComponent(trimmed)}`);
+};
 
     return (
         <div className="m-0 w-full">
@@ -81,8 +85,8 @@ const Header = (): JSX.Element => {
 
                             <NavigationMenuContent className="p-3 flex flex-col gap-2">
                                 {
-                                    navLinks.map((link, i) => (
-                                        <NavigationMenuLink asChild key={i}>
+                                    navLinks.map((link) => (
+                                        <NavigationMenuLink asChild key={link.href}>
                                             <Link to={link.href} className="font-semibold hover:underline">
                                                 {link.label}
                                             </Link>

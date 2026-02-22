@@ -29,16 +29,11 @@ export default function SearchBar({ value = "", onSearch, className }: SearchBar
     const handler = setTimeout(() => {
        const trimmedQuery = query.trim();
             
-            // If query is empty and we're on the products page, go home
             if (trimmedQuery.length === 0 && window.location.pathname.startsWith('/products')) {
                 navigate('/');
                 return;
             }
-            
-            // Only call onSearch if query is valid
-            if (trimmedQuery.length >= 5) {
-                onSearch(trimmedQuery);
-            }
+            onSearch(trimmedQuery)
         }, 300);
     return () => {
       clearTimeout(handler)
