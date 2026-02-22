@@ -28,7 +28,6 @@ interface NavItem {
 const Header = (): JSX.Element => {
 
     const { theme, toggleTheme } = useTheme();
-    const navigate = useNavigate();
 
     const navLinks: NavItem[] = [
         {
@@ -42,16 +41,24 @@ const Header = (): JSX.Element => {
         },
     ]
 
-    const handleSearch = (query: string) => {
-    const trimmed = query.trim();
+/*     const handleSearch = (query: string) => {
+        const trimmed = query.trim();
 
-    if (!trimmed) {
-        navigate("/");
-        return;
-    }
+        if (!trimmed) {
+            navigate("/products");
+            return;
+        }
+        navigate(`/products?name=${encodeURIComponent(trimmed)}`);
+    };
 
-    navigate(`/products?name=${encodeURIComponent(trimmed)}`);
-};
+    const handleSearchFocus = (query: string) => {
+        if (query.length === 0) { 
+            navigate("/products");
+            return;
+        } else {
+            navigate(`/products?name=${encodeURIComponent(query.trim())}`);
+        }
+    } */
 
     return (
         <div className="m-0 w-full">
@@ -61,7 +68,7 @@ const Header = (): JSX.Element => {
                         <img src={theme === "dark" ? lightLogo : darkLogo} alt="logo" className="size-15" />                        <span className="h-fit my-auto dark:text-white" id="logo">Faz<br></br>Cart</span>
                     </div>
 
-                    <SearchBar onSearch={handleSearch} />
+                    <SearchBar />
 
                     <div className="w-fit flex flex-row align-middle items-center ">
                         <NavigationMenuItem className="flex items-center flex-col hover:bg-background rounded-md p-1 ">
