@@ -1,4 +1,5 @@
 import { useEffect, useState, type JSX } from "react";
+import type { Product } from "@/features/products/types";
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "@/features/auth/useAuth";
 import { getProductById } from "@/features/products/api";
@@ -8,16 +9,6 @@ import ProductInfo from "@/features/products/components/ProductInfo";
 import Loading from "@/shared/components/ui/Loading";
 import Body from "@/shared/components/layout/Body";
 
-
-interface Product {
-    id: number;
-    name: string;
-    description: string;
-    categories: string[];
-    price: number;
-    stock: number;
-    imageUrl: string;
-}
 
 const ProductDetails = (): JSX.Element => {
     const { id } = useParams();

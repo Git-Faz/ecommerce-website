@@ -1,27 +1,12 @@
 import { getAllOrders } from "@/features/orders/api";
 import type { JSX } from "react";
+import type { Order } from "@/features/orders/types";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/useAuth";
 import OrderCard from "@/features/orders/components/OrderCard";
 import Loading from "@/shared/components/ui/Loading";
 import Body from "@/shared/components/layout/Body";
-
-export interface OrderItem {
-    id: number
-    userId: number
-    productName: string
-    productImageUrl: string
-    productPrice: number
-    quantity: number
-}
-
-export interface Order {
-    id: number
-    items: OrderItem[]
-    totalAmount: number
-    status: string
-}
 
 const Order = (): JSX.Element => {
     const { isLoggedIn } = useAuth();

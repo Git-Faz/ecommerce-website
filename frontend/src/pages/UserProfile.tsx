@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/useAuth";
 import { useAppDispatch } from "@/app/hooks";
 import UserInfoCard from "@/features/user/components/UserInfoCard";
-import { type UserInfo } from "@/features/user/components/UserInfoCard";
+import { type UserInfo } from "@/features/user/types";
 import { loadProfile } from "@/features/user/api";
 import { toast } from "sonner";
 import Loading from "@/shared/components/ui/Loading";

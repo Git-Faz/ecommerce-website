@@ -1,39 +1,24 @@
 import { useState, useEffect, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCart, clearCart, deleteCartItem } from "@/features/cart/api";
+import type { CartItemResponse } from "@/features/cart/types";
 import CartItemCard from "@/features/cart/components/CartItemCard";
 import { Button } from "@/shared/components/ui/button";
 import Loading from "@/shared/components/ui/Loading";
 import { useAuth } from "@/features/auth/useAuth";
+import useCart from "@/features/cart/queries";
+import { useDeleteCartItem, useClearCart } from "@/features/cart/mutation"
 import Body from "@/shared/components/layout/Body";
-
-interface CartItem {
-    id: number;
-    productName: string;
-    productImageUrl: string;
-    productPrice: number;
-    quantity: number;
-    totalPrice: number;
-}
+import { toast } from "sonner";
 
 
 const Cart = (): JSX.Element => {
-    const [cartItems, setCartItems] = useState<CartItem[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+
     const navigate = useNavigate();
     const { isLoggedIn } = useAuth();
 
-    useEffect(() => {
-        if (!isLoggedIn) return;
-
-        getCart()
-            .then((res: { data: CartItem[] }) => {
-            console.log(res.data)
-            setCartItems(res.data)
-            setLoading(false)
-            })
-            .catch((err: unknown) => `Unexpected error: ${err}`)
-    }, [isLoggedIn])
+    const { data: cart, isLoading: cartIsLoading, isError } = useCart();
+    const { mutate: deleteItem, isPending: isDeleting } = useDeleteCartItem();
+    const { mutate: clearCart, isPending: isClearing } = useClearCart();
 
     if (!isLoggedIn) {
         return (
@@ -43,22 +28,11 @@ const Cart = (): JSX.Element => {
         )
     }
 
-    const handleClearCart = async () => {
-        try {
-            await clearCart()
-            setCartItems([])
-        } catch (err) {
-            console.error("Failed to clear cart", err)
-        }
-    }
+    if (cartIsLoading) return <Loading message="Loading Cart..." />
 
-    const handleCheckout = () => {
-        navigate("/checkout");
-    }
+    if (isError) return <h1>Failed to load cart</h1>
 
-    if (loading) return <Loading />
-
-    if (cartItems.length === 0) {
+    if (!cart?.length) {
         return (
             <div>
                 <h1 id="title">Cart Page</h1>
@@ -67,26 +41,14 @@ const Cart = (): JSX.Element => {
         );
     }
 
-    const handleDelete = async (itemId: number) => {
-        try {
-            await deleteCartItem(itemId);
-            setCartItems(prev => prev.filter(item => item.id !== itemId));
-        } catch (error) {
-            console.error("Failed to delete cart item", error);
-        }
-    }
-
-
+    const handleCheckout = () => navigate('/checkout')
 
     return (
-        <Body classname="mx-20">
-            <div className="m-5 p-5 min-w-fit w-full max-w-3xl">
-                <h1 id="title" >
-                    My Cart
-                </h1>
+        <Body classname="mx-20 p-5 min-w-fit w-full max-w-3xl">
+                <h1 id="title" >My Cart</h1>
                 <div>
                     {
-                        cartItems.map((item: any) => (
+                        cart.map((item: any) => (
                             <CartItemCard
                                 key={item.id}
                                 name={item.productName}
@@ -94,18 +56,26 @@ const Cart = (): JSX.Element => {
                                 price={item.productPrice}
                                 quantity={item.quantity}
                                 total={item.totalPrice}
-                                onDelete={() => handleDelete(item.id)}
-                                classname="min-w-fit w-3xl shadow-blue-300 shadow-md  dark:shadow-none "
+                                onDelete={() => {
+                                    deleteItem(item.id)
+                                    toast.success(`Removed item: ${item.productName}`)
+                                }}
+                                disabled={isDeleting}
+                                classname="min-w-fit w-3xl shadow-blue-300 shadow-md dark:shadow-none disabled:cursor-not-allowed "
                             />
                         ))
                     }
                 </div>
                 <div className="flex justify-end gap-x-5 mx-auto min-w-fit w-3xl max-w-3xl">
-                    <Button variant={"destructive"} size={"sm"} onClick={handleClearCart} className="bg-red-300 text-black hover:bg-red-500" >Clear</Button>
+
+                    <Button variant={"destructive"} size={"sm"} onClick={() => clearCart()} 
+                     disabled={isClearing}
+                     className="bg-red-300 text-black hover:bg-red-500" 
+                    >Clear</Button>
+
                     <Button size={"sm"} onClick={handleCheckout} className="bg-green-300 text-black hover:bg-green-400"
                     >Proceed to buy</Button>
                 </div>
-            </div>
         </Body>
     )
 }

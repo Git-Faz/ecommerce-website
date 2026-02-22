@@ -6,5 +6,20 @@ export interface CartItem {
     imageUrl: string;
     total: number;
     onDelete?: () => void;
-    classname?: string
+    classname?: string;
+    disabled?: boolean;
+}
+
+export interface CartItemResponse {
+  id: number;
+  productName: string;
+  productPrice: number;
+  quantity: number;
+  productImageUrl: string;
+  totalPrice: number;
+}
+
+export interface AddToCartInput {
+  productId: number;
+  quantity: number;
 }
