@@ -29,8 +29,9 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Product>> getProductByName(@RequestParam String name) {
-        return ResponseEntity.ok(productService.getProductsByName(name));
+    public ResponseEntity<Page<Product>> getProductByName(@RequestParam String name, @RequestParam int page,
+            @RequestParam int size) {
+        return ResponseEntity.ok(productService.getProductsByName(name, page, size));
     }
 
     @PostMapping("/new-product")
@@ -56,10 +57,10 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse<>("Product deleted successfully"));
     }
 
-    @GetMapping("/by-category")
-    public ResponseEntity<List<Product>> showProductsByCategory(
-            @RequestParam Set<String> categories) {
-        return ResponseEntity.ok(productService.getProductByCategory(categories));
+    @GetMapping("/category")
+    public ResponseEntity<Page<Product>> getByCategory(@RequestParam Set<String> categories,
+            @RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(productService.getProductByCategory(categories, page, size));
     }
 
     @GetMapping("/{id}")

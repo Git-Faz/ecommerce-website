@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,18 +22,17 @@ public class ProductService {
 
     private final ProductRepo productRepo;
 
-    public Page<Product> getAllProducts(Pageable pageable){
-      return productRepo.findAll(pageable);
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productRepo.findAll(pageable);
     }
 
-    public List<Product> getProductsByName(String name){
-        return productRepo.findByNameContainingIgnoreCase(name);
-   
-         
+    public Page<Product> getProductsByName(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepo.findByNameContainingIgnoreCase(name, pageable);
     }
 
-    public Product addSingleProduct (ProductRequest request ){
-        if (productRepo.existsByNameIgnoreCase( "this product already exists")){
+    public Product addSingleProduct(ProductRequest request) {
+        if (productRepo.existsByNameIgnoreCase("this product already exists")) {
             throw new BadRequestException("Product already exists");
         }
 
@@ -43,42 +43,41 @@ public class ProductService {
         product.setCategories(request.getCategories());
         product.setImageUrl(request.getImageUrl());
 
-       return productRepo.save(product);
+        return productRepo.save(product);
     }
 
-    public Product updateProduct(Long id, ProductRequest request){
+    public Product updateProduct(Long id, ProductRequest request) {
         Product p = productRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Item Not found"));
 
-        if (request.getName() != null) p.setName(request.getName());
-        if (request.getDescription() != null) p.setDescription(request.getDescription());
-        if (request.getPrice() != null) p.setPrice(request.getPrice());
-        if (request.getImageUrl() != null) p.setImageUrl(request.getImageUrl());
+        if (request.getName() != null)
+            p.setName(request.getName());
+        if (request.getDescription() != null)
+            p.setDescription(request.getDescription());
+        if (request.getPrice() != null)
+            p.setPrice(request.getPrice());
+        if (request.getImageUrl() != null)
+            p.setImageUrl(request.getImageUrl());
 
         return productRepo.save(p);
 
     }
 
-    public void deleteProduct(Long id){
+    public void deleteProduct(Long id) {
         Product p = productRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
         productRepo.delete(p);
     }
 
-    public List<Product> getProductByCategory(Set<String> categories) {
-        List<Product> products = productRepo.findByCategoriesIn(categories);
-        if(products.isEmpty()){
-            throw new ResourceNotFoundException("There are no products in this category");
-        }
-        return products;
+    public Page<Product> getProductByCategory(Set<String> categories, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepo.findByCategoriesIn(categories, pageable);
     }
 
-    public Product getProductById(Long id){
+    public Product getProductById(Long id) {
         return productRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product doesn't exist"));
     }
-
-
 
 }
