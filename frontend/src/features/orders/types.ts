@@ -7,7 +7,7 @@ export interface OrderItem {
     quantity: number
 }
 
-export interface Order {
+export interface OrderProp {
     id: number
     items: OrderItem[]
     totalAmount: number

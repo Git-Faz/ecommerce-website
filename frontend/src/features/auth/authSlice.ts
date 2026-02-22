@@ -90,8 +90,6 @@ const authSlice = createSlice({
                 state.error = null
             })
             .addCase(login.fulfilled, (state, action) => {
-                console.log("API Response:", action.payload);  // Add this
-
                 const { token, username, role, email } = action.payload;
                 const payload = JSON.parse(atob(token.split(".")[1]));
 
