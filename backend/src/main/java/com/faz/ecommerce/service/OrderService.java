@@ -8,6 +8,10 @@ import com.faz.ecommerce.exception.BadRequestException;
 import com.faz.ecommerce.exception.ResourceNotFoundException;
 import com.faz.ecommerce.repository.*;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,8 +71,9 @@ public class OrderService {
         return order;
     }
 
-    public List<Order> getUserOrders (Long userId){
-        return orderRepo.findByUserId(userId);
+    public Page<Order> getUserOrders (Long userId, int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return orderRepo.findByUserId(userId, pageable);
     }
 
     public Order getOrderById (Long orderId){

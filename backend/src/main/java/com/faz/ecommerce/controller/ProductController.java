@@ -1,6 +1,5 @@
 package com.faz.ecommerce.controller;
 
-import com.faz.ecommerce.dto.ApiResponse;
 import com.faz.ecommerce.dto.ProductRequest;
 import com.faz.ecommerce.entity.Product;
 import com.faz.ecommerce.service.ProductService;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -36,25 +34,23 @@ public class ProductController {
 
     @PostMapping("/new-product")
     @PreAuthorize("hasAnyRole('ADMIN','SELLER')")
-    public ResponseEntity<ApiResponse<Product>> addSingleProduct(@Valid @RequestBody ProductRequest request) {
+    public ResponseEntity<Product> addSingleProduct(@Valid @RequestBody ProductRequest request) {
         Product product = productService.addSingleProduct(request);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ApiResponse<>("Product created successfully", product));
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
     @PatchMapping("/update/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','SELLER')")
-    public ResponseEntity<ApiResponse<Product>> updateProduct(@Valid @PathVariable Long id,
-            @Valid @RequestBody ProductRequest request) {
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
         Product updatedProduct = productService.updateProduct(id, request);
-        return ResponseEntity.ok(new ApiResponse<>("Product updated successfully"));
+        return ResponseEntity.ok(updatedProduct);
     }
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','SELLER')")
-    public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
-        return ResponseEntity.ok(new ApiResponse<>("Product deleted successfully"));
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/category")

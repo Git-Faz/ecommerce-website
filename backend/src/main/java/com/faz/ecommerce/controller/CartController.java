@@ -1,7 +1,6 @@
 package com.faz.ecommerce.controller;
 
 import com.faz.ecommerce.dto.AddToCartRequest;
-import com.faz.ecommerce.dto.ApiResponse;
 import com.faz.ecommerce.dto.CartItemResponse;
 import com.faz.ecommerce.entity.CartItem;
 import com.faz.ecommerce.service.CartService;
@@ -11,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,17 +31,17 @@ public class CartController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<CartItemResponse>> addItem(@Valid @RequestBody AddToCartRequest request, Authentication auth) {
+    public ResponseEntity<CartItemResponse> addItem(@Valid @RequestBody AddToCartRequest request, Authentication auth) {
         CartItem item = cartService.addToCart(request.getProductId(), request.getQuantity());
         CartItemResponse response = cartService.mapToCartResponse(item);
-        return ResponseEntity.ok(new ApiResponse<>("Item added to cart", response));
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<ApiResponse<CartItemResponse>> updateQuantity(@Valid @RequestBody AddToCartRequest request) {
+    public ResponseEntity<CartItemResponse> updateQuantity(@Valid @RequestBody AddToCartRequest request) {
         CartItem item = cartService.updateQuantity(request.getProductId(), request.getQuantity());
         CartItemResponse response = cartService.mapToCartResponse(item);
-        return ResponseEntity.ok(new ApiResponse<>("Quantity updated", response));
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{cartItemId}")

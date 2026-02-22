@@ -1,6 +1,5 @@
 package com.faz.ecommerce.controller;
 
-import com.faz.ecommerce.dto.ApiResponse;
 import com.faz.ecommerce.dto.ProfileResponse;
 import com.faz.ecommerce.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,7 @@ public class UserController {
     private final JwtUtil jwtUtil;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<ProfileResponse>> getProfile(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<ProfileResponse> getProfile(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");
 
         String username = jwtUtil.extractUsername(token);
@@ -24,7 +23,7 @@ public class UserController {
         String role = jwtUtil.extractRole(token);
 
         ProfileResponse profile = new ProfileResponse(email,username, role);
-        return ResponseEntity.ok(new ApiResponse<>(profile));
+        return ResponseEntity.ok(profile);
     }
 
 }
