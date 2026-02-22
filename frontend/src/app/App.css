@@ -5,25 +5,17 @@
 
 @font-face {
   font-family: 'Handmade';
-  src: url('./assets/fonts/Handmade.otf') format('truetype');
+  src: url('./assets/fonts/Handmade.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: 'RushDriver';
-  src: url('./assets/fonts/RushDriver-Italic.otf') format('truetype');
-  font-weight: 400;
+  src: url("/assets/fonts/RushDriver-Italic.ttf") format("truetype");
   font-style: italic;
+  font-weight: 400;
+  font-display: normal;
 }
-
-@font-face {
-  font-family: 'antipasto';
-  src: url('./assets/fonts/antipasto/AntipastoPro-Medium_trial.ttf') format('truetype');
-  font-weight: medium;
-  font-style: normal;
-}
-
-
 
 
 body, main {
