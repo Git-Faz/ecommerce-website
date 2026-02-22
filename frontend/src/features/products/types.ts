@@ -1,4 +1,4 @@
-export interface ProductCard {
+export interface ProductCardProps {
     img: {
         link: string,
         alt: string
@@ -6,7 +6,9 @@ export interface ProductCard {
     name: string,
     price: number;
     onClick: () => void,
-    onBtnClick: () => void
+    onBtnClick: () => void,
+    disabled?: boolean,
+    classname?: string
 }
 
 export interface ProductInfoProps {
@@ -25,4 +27,22 @@ export interface QuantityCounterProps {
     max: number;
     value: number;
     onChange: (qty: number) => void;
+}
+
+export interface Product {
+    id: number;
+    name: string;
+    description: string;
+    categories: string[];
+    price: number;
+    stock: number;
+    imageUrl: string;
+}
+
+export interface ProductsPage {
+  content: Product[];
+  totalPages: number;
+  totalElements: number;
+  number: number;
+  size: number;
 }
