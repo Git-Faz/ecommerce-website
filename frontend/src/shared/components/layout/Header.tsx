@@ -12,9 +12,9 @@ import lightLogo from "@/assets/FazCartLight.svg";
 import darkLogo from "@/assets/FazCartDark.svg"
 import { ShoppingCartIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import type { JSX } from "react";
+import {type JSX } from "react";
 import { useTheme } from "@/app/theme/useTheme";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/features/auth/useAuth";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import SearchBar from "./SearchBar"
@@ -29,9 +29,12 @@ const Header = (): JSX.Element => {
 
     const { theme, toggleTheme } = useTheme();
 
+    const {isLoggedIn} = useAuth();
+
     const navLinks: NavItem[] = [
         {
-            label: "My Account", href: "/account"
+            label: isLoggedIn ? "My account" : "Log In",
+            href: isLoggedIn ? "/account" : "/auth"
         },
         {
             label: "Orders", href: "/orders"
@@ -59,6 +62,7 @@ const Header = (): JSX.Element => {
             navigate(`/products?name=${encodeURIComponent(query.trim())}`);
         }
     } */
+
 
     return (
         <div className="m-0 w-full">
