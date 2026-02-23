@@ -5,13 +5,13 @@
 
 @font-face {
   font-family: 'Handmade';
-  src: url('./assets/fonts/Handmade.ttf') format('truetype');
+  src: url('../assets/fonts/Handmade.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: 'RushDriver';
-  src: url("/assets/fonts/RushDriver-Italic.ttf") format("truetype");
+  src: url("../assets/fonts/RushDriver-Italic.ttf") format("truetype");
   font-style: italic;
   font-weight: 400;
   font-display: normal;
