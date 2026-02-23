@@ -12,26 +12,9 @@ const Order = (): JSX.Element => {
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
     const [orders, setOrders] = useState<OrderProp[]>([]);
+    const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        if (!isLoggedIn) {
-            navigate("/auth", { replace: true });
-            return;
-        }
-
-        getAllOrders()
-            .then((res: any)  => {
-                setOrders(res.data.data);
-                setLoading(false);
-            })
-            .catch((err: unknown) => {
-                console.error("Failed to fetch orders", err);
-                setLoading(false);
-            });
-    }, [isLoggedIn, navigate]);
-
-    if (loading) return <Loading message="Loading Orders..." />;
 
     if (orders.length === 0) return <h3 className="text-xl font-bold">No orders</h3>;
 

@@ -5,7 +5,7 @@ import { getAllProducts, getProductByName } from "./api";
 const PAGE_SIZE = 10;
 
 export function useProducts(query: string, page: number) {
-  return useQuery({
+  return useQuery<ProductsPage>({
     queryKey: ["products", query, page],
     queryFn: async () => {
       const response =

@@ -1,6 +1,5 @@
-import { useState, useEffect, type JSX } from "react";
+import { type JSX } from "react";
 import { useNavigate } from "react-router-dom";
-import type { CartItemResponse } from "@/features/cart/types";
 import CartItemCard from "@/features/cart/components/CartItemCard";
 import { Button } from "@/shared/components/ui/button";
 import Loading from "@/shared/components/ui/Loading";

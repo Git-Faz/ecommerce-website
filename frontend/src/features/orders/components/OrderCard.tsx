@@ -6,10 +6,10 @@ import {
   ItemTitle,
 } from "@/shared/components/ui/item";
 import type { JSX } from "react";
-import { type Order } from "../types";
+import { type OrderProp } from "../types";
 
 
-const OrderCard = ({ id, items, totalAmount, status }: Order): JSX.Element => {
+const OrderCard = ({ id, items, totalAmount, status }: OrderProp): JSX.Element => {
   return (
     <Item variant={"default"} 
     className="min-w-[50%] max-w-fit w-fit mx-10 mt-10 dark:bg-gray-800 dark:text-white shadow-blue-200 shadow-md  dark:shadow-none ">

@@ -34,8 +34,8 @@ const UserProfile = (): JSX.Element => {
 
         loadProfile()
             .then(res => {
-                console.log(res.data.data);
-                setUserData(res.data.data);
+                console.log(res.data);
+                setUserData(res.data);
                 setLoading(false)
             })
             .catch(e => {
