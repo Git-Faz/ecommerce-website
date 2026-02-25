@@ -67,10 +67,11 @@ const Header = (): JSX.Element => {
     return (
         <div className="m-0 w-full">
             <NavigationMenu viewport={false} className="mx-auto w-full h-fit"  >
-                <NavigationMenuList id="navmenu" className="shadow-blue-200 dark:shadow-blue-500 shadow-sm p-3" >
-                    <div className="flex flex-row justify-start content-center m-0 min-w-fit w-50 p-4 text-black font-light text-xl">
-                        <img src={theme === "dark" ? lightLogo : darkLogo} alt="logo" className="size-15" />                        <span className="h-fit my-auto dark:text-white" id="logo">Faz<br></br>Cart</span>
-                    </div>
+                <NavigationMenuList id="navmenu" className="shadow-blue-200 dark:shadow-blue-500 shadow-sm p-3 min-h-fit" >
+                        <div className="flex flex-row justify-start content-center m-0 min-w-fit w-50 p-4 text-black font-light text-xl">
+                            <img src={theme === "dark" ? lightLogo : darkLogo} alt="logo" className="size-15" />                        
+                            <span className="h-fit my-auto dark:text-white" id="logo">Faz<br></br>Cart</span>
+                        </div>
 
                     <SearchBar />
 
