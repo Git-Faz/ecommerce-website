@@ -1,23 +1,28 @@
 import type { JSX } from "react";
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/features/auth/useAuth";
 import { useAppDispatch } from "@/app/hooks";
 import UserInfoCard from "@/features/user/components/UserInfoCard";
-import { type UserInfo } from "@/features/user/types";
-import { loadProfile } from "@/features/user/api";
 import { toast } from "sonner";
 import Loading from "@/shared/components/ui/Loading";
 import { logout } from "@/features/auth/authSlice";
+import useUserProfile from "@/features/user/queries";
 
-const UserProfile = (): JSX.Element => {
+const UserProfile = (): JSX.Element | null => {
 
     const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
-    const [userdata, setUserData] = useState<UserInfo>({ name: "", email: "loading" })
-    const [loading, setLoading] = useState<boolean>(true);
+    const {data: userData, isFetching, isLoading, isError} = useUserProfile();
 
     const dispatch = useAppDispatch();
+
+    if(!isLoggedIn) {
+        return(
+            <>
+            <h1>Please login to view profile</h1>
+            </>
+        )
+    }
 
     const handleLogout = () => {
         dispatch(logout());
@@ -25,32 +30,17 @@ const UserProfile = (): JSX.Element => {
         //navigate("/auth", { replace: true });
     };
 
-    useEffect(() => {
-        if (!isLoggedIn) {
-            toast.info("Login to view profile")
-            navigate("/auth", { replace: true });
-            return;
-        }
+    if (isLoading || isFetching) return <Loading />
 
-        loadProfile()
-            .then(res => {
-                console.log(res.data);
-                setUserData(res.data);
-                setLoading(false)
-            })
-            .catch(e => {
-                console.log("Error", e)
-                navigate("/auth", { replace: true });
-            })
-    }, [isLoggedIn, navigate])
+    if (isError) return (<><h1>Error loading your profile</h1></>)
 
-    if (loading) return <Loading />
+    if (!userData) return null;
 
     return (
         <div className="flex justify-center m-5 p-5">
             <UserInfoCard
-                name={userdata.name}
-                email={userdata.email}
+                name={userData?.name}
+                email={userData?.email}
                 onLogout={handleLogout}
             />
         </div>
